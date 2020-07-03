@@ -5,11 +5,15 @@
 #include <vector>
 #include <noise/noise.h>
 #include <iostream>
+#include <stdlib.h>
+#include <time.h>
 
 World::World(int size_x, int size_y)
 {
 	// generate a world
 	noise::module::Perlin noise_module;
+	srand(time(NULL));
+	noise_module.SetSeed(rand());
 
 	// create a new vector
 	world_data = std::vector<std::vector<Tile>>();
