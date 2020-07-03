@@ -23,10 +23,6 @@ public:
 	Tile(double altitude);
 	Tile(Terrain_t terrain);
 
-
-	// pointer to the company that is on this tile
-	std::shared_ptr<Company> company;
-
 	void draw(sf::RenderTarget &target, int x, int y);
 };
 

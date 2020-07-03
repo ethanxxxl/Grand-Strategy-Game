@@ -34,17 +34,14 @@ Tile::Tile(double altitude)
 		terrain = WATER;
 
 	this->altitude = altitude;
-	company = NULL;
 }
 
 Tile::Tile(Terrain_t terrain)
 {
 	this->terrain = terrain;
-	company = NULL;
 }
 
 Tile::Tile()
 {
 	terrain = LAND;
-	company = NULL;
 }
