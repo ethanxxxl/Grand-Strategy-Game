@@ -37,10 +37,6 @@ void UI_Tools::pan(sf::Event event)
 		sf::Vector2i pixelPos = sf::Mouse::getPosition(*window);
 		mouse_pos = window->mapPixelToCoords(pixelPos);
 	}
-	else if ( event.type == sf::Event::MouseButtonReleased )
-	{
-
-	}
 }
 
 void UI_Tools::interract(sf::Event event)

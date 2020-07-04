@@ -8,6 +8,7 @@ set(CLIENT_SRC
     src/Tile.cpp
 	src/UITools.cpp
 	src/World.cpp
+	src/Player.cpp
 	)
 
 set (SERVER_SRC
@@ -16,6 +17,7 @@ set (SERVER_SRC
     src/Tile.cpp
 	src/UITools.cpp
 	src/World.cpp
+	src/Player.cpp
 	)
 
 include_directories(./include)

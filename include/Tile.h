@@ -6,12 +6,11 @@
 #include <memory>
 #include <Company.h>
 #include <noise/module/terrace.h>
+#include <CONSTANTS.h>
 
 class Tile
 {
 private:
-	const static int display_size = 10;
-
 
 public:
 	enum Terrain_t { LAND, WATER, MOUNTAIN};
@@ -23,7 +22,7 @@ public:
 	Tile(double altitude);
 	Tile(Terrain_t terrain);
 
-	void draw(sf::RenderTarget &target, int x, int y);
+	sf::Color draw_color();
 };
 
 #endif

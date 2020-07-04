@@ -6,22 +6,17 @@
 
 #include <SFML/Graphics.hpp>
 
-void Tile::draw(sf::RenderTarget &target, int x, int y)
+sf::Color Tile::draw_color()
 {
-	// set the size and location of the tile
-	sf::RectangleShape tile_shape(sf::Vector2f(display_size, display_size));
-	tile_shape.setPosition(x*display_size, y*display_size);
-	tile_shape.setOutlineColor(sf::Color::White);
-
-	// set the internal color of the tile.
+	// return the proper color
 	if ( terrain == WATER )
-		tile_shape.setFillColor(sf::Color::Blue);
+		return sf::Color::Blue;
 	else if ( terrain == LAND )
-		tile_shape.setFillColor(sf::Color(0x008f1fff));
+		return sf::Color(0x008f1fff);
 	else if ( terrain == MOUNTAIN )
-		tile_shape.setFillColor(sf::Color::White);
+		return sf::Color::White;
 
-	target.draw(tile_shape);
+	return sf::Color::Black;
 }
 
 Tile::Tile(double altitude)

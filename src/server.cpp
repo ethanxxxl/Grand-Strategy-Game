@@ -1,3 +1,4 @@
+#include "Player.h"
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/Network.hpp>
@@ -50,8 +51,8 @@ int main()
 //	client.disconnect();
 
 	// GENERATE WORLD MAP
-	const int WORLD_SIZE_X = 50;
-	const int WORLD_SIZE_Y = 50;
+	const int WORLD_SIZE_X = 100;
+	const int WORLD_SIZE_Y = 100;
 
 	World the_world(WORLD_SIZE_X, WORLD_SIZE_Y);
 
@@ -59,7 +60,7 @@ int main()
 	sf::RenderWindow window(sf::VideoMode(800, 400), "SFML works!");
 	
 	// define the viewport
-	sf::View view(sf::FloatRect(200,200,300,200));
+	sf::View view(sf::FloatRect(0,0,800,400));
 	// and activate it
 	window.setView(view);
 
@@ -70,9 +71,13 @@ int main()
 
 	UI_Tools::set_active_tool(UI_Tools::Pan_Map);
 
+	// add a temporary player
+	Player p1("ethanxxxl");
+
+	// MAIN LOOP
 	while (window.isOpen())
 	{
-		window.clear(sf::Color::Black);
+		window.clear(sf::Color(0x151515ff));
 
 		// EVENT HANDLING
 		sf::Event event;
@@ -90,17 +95,19 @@ int main()
 				window.setView(view);
 			}
 
+			// UI stuff
 			UI_Tools::use_tools(event);
-
-			
 		}
 
+		// draw the world
 		the_world.draw(window);
+
+		// draw player stuff
+		p1.draw(window);
 
 		window.display();
 
 	}
-
 
   return 0;
 	
