@@ -1,22 +1,34 @@
 #ifndef COMPANY_H
 #define COMPANY_H
 
+#include <SFML/Graphics.hpp>
+#include <SFML/System/Vector2.hpp>
+
 class Company
 {
 private:
-	int num_soldiers;
+	int num_soldiers = 150;
+	static const int display_radius = 3;
+	sf::Vector2i position;
 
 	// TODO: think about using smart pointers for the location of items.
 	// TODO: figure out how you are going to structure this stuff.
 
 public:
+	Company(sf::Vector2i pos, int num_soldiers);
+	Company(sf::Vector2i pos);
+
 	int get_soldiers();
 	void remove_soldiers(int num);
 	void add_soldiers(int num);
 
-	void attack(Company &enemy_company);
+	static void fight(Company attacker, Company defender);
 
-	void move(int x, int y);
+	void move(sf::Vector2i new_pos);
+	sf::Vector2i get_position();
+
+	// draws the company at pos
+	void draw(sf::RenderTarget& target, sf::Color color);
 };
 
 

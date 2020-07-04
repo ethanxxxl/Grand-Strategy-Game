@@ -1,4 +1,21 @@
 #include <Company.h>
+#include <SFML/Graphics.hpp>
+#include <SFML/Graphics/CircleShape.hpp>
+#include <SFML/Graphics/Color.hpp>
+#include <SFML/System/Vector2.hpp>
+#include <CONSTANTS.h>
+
+Company::Company(sf::Vector2i pos, int num_soldiers)
+{
+	this->position = pos;
+	this->num_soldiers = num_soldiers;
+}
+
+Company::Company(sf::Vector2i pos)
+{
+	this->position = pos;
+}
+
 
 int Company::get_soldiers()
 {
@@ -17,10 +34,32 @@ void Company::add_soldiers(int num)
 	num_soldiers += num;
 }
 
-void Company::attack(Company &enemy_company)
+void Company::fight(Company attacker, Company defender)
 {
 	// this is a super simple combat algorithm, it will definitely change
 	//  in the future.
-	enemy_company.remove_soldiers(num_soldiers);
-	this->remove_soldiers(enemy_company.get_soldiers());
+	defender.remove_soldiers(attacker.get_soldiers());
+	attacker.remove_soldiers(defender.get_soldiers());
+}
+
+void Company::move(sf::Vector2i new_pos)
+{
+	// TODO add limits on how far a company can move per turn
+	position = new_pos;
+}
+
+sf::Vector2i Company::get_position()
+{
+	return position;
+}
+
+void Company::draw(sf::RenderTarget& target, sf::Color color)
+{
+	sf::CircleShape dot(display_radius);
+	dot.setFillColor(color);
+
+	// vector2i isn't implicitly converted to vector2f
+	sf::Vector2f pos = sf::Vector2f(CONSTANTS::tile_size*(position.x-0.25),CONSTANTS::tile_size*(position.y-0.25));
+	dot.setPosition(pos);
+	target.draw(dot);
 }
