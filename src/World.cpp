@@ -37,9 +37,10 @@ World::World(int size_x, int size_y)
 		}
 	}
 
-	// Generate vertex array to be rendered.
+	// Generate vertex array of the map to be rendered.
 	tile_map = sf::VertexArray(sf::Quads);
 
+	// creates a bunch of colored squares.
 	for ( auto x = world_data.begin(); x != world_data.end(); ++x )
 	{
 		for ( auto y = x->begin(); y != x->end(); ++y )
@@ -54,7 +55,9 @@ World::World(int size_x, int size_y)
 		}
 	}
 
+	// create the grid lines for the map.
 	grid_map = sf::VertexArray(sf::LineStrip);
+	// go up and down
 	for ( int y = 0; y < size_y; y+=2 )
 	{
 		float map_beg = -CONSTANTS::tile_size/2;
@@ -66,6 +69,7 @@ World::World(int size_x, int size_y)
 		grid_map.append(sf::Vertex(sf::Vector2f(map_beg, cur_y+CONSTANTS::tile_size), sf::Color::Black));
 	}
 
+	// Go across
 	for ( int x = 0; x < size_x; x+=2 )
 	{
 		float map_top = -CONSTANTS::tile_size/2;
@@ -77,16 +81,10 @@ World::World(int size_x, int size_y)
 		grid_map.append(sf::Vertex(sf::Vector2f(cur_x+CONSTANTS::tile_size, map_bot), sf::Color::Black));
 		grid_map.append(sf::Vertex(sf::Vector2f(cur_x+CONSTANTS::tile_size, map_top), sf::Color::Black));
 	}
-
-#include <iostream>
-	std::cout << "tile_mape size: " << tile_map.getVertexCount() <<std::endl;
-	std::cout << "grid_mape size: " << grid_map.getVertexCount() <<std::endl;
-
 }
 
 void World::draw(sf::RenderTarget &target)
 {
 	target.draw(tile_map);
-
 	target.draw(grid_map);
 }

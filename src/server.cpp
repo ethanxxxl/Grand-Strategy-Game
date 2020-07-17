@@ -51,8 +51,8 @@ int main()
 //	client.disconnect();
 
 	// GENERATE WORLD MAP
-	const int WORLD_SIZE_X = 100;
-	const int WORLD_SIZE_Y = 100;
+	const int WORLD_SIZE_X = 25;
+	const int WORLD_SIZE_Y = 25;
 
 	World the_world(WORLD_SIZE_X, WORLD_SIZE_Y);
 
@@ -69,7 +69,7 @@ int main()
 	UI_Tools::window = &window;
 	UI_Tools::view = &view;
 
-	UI_Tools::set_active_tool(UI_Tools::Pan_Map);
+	UI_Tools::set_active_tool(UI_Tools::Interract);
 
 	// add a temporary player
 	Player p1("ethanxxxl");
@@ -78,6 +78,12 @@ int main()
 	while (window.isOpen())
 	{
 		window.clear(sf::Color(0x151515ff));
+		
+		// draw the world
+		the_world.draw(window);
+
+		// draw player stuff
+		p1.draw(window);
 
 		// EVENT HANDLING
 		sf::Event event;
@@ -85,25 +91,11 @@ int main()
 		{
 			if (event.type == sf::Event::Closed)
 				window.close();
-			else if ( event.type == sf::Event::MouseWheelScrolled )
-			{
-				if (event.mouseWheelScroll.delta == 1)
-					view.zoom(0.5);
-				else
-					view.zoom(1.5);
-
-				window.setView(view);
-			}
 
 			// UI stuff
 			UI_Tools::use_tools(event);
 		}
 
-		// draw the world
-		the_world.draw(window);
-
-		// draw player stuff
-		p1.draw(window);
 
 		window.display();
 
