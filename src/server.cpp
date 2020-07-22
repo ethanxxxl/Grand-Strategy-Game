@@ -15,6 +15,7 @@
 #include <array>
 #include <UITools.h>
 #include <World.h>
+#include <EventHandler.h>
 
 int main()
 {
@@ -74,11 +75,14 @@ int main()
 	// add a temporary player
 	Player p1("ethanxxxl");
 
+	// Start event handler
+	EventHandler eventhandler(&window);
+
 	// MAIN LOOP
 	while (window.isOpen())
 	{
 		window.clear(sf::Color(0x151515ff));
-		
+
 		// draw the world
 		the_world.draw(window);
 
@@ -86,15 +90,7 @@ int main()
 		p1.draw(window);
 
 		// EVENT HANDLING
-		sf::Event event;
-		while (window.pollEvent(event))
-		{
-			if (event.type == sf::Event::Closed)
-				window.close();
-
-			// UI stuff
-			UI_Tools::use_tools(event);
-		}
+		eventhandler.handle_events();
 
 
 		window.display();
