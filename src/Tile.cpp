@@ -1,3 +1,4 @@
+#include "CONSTANTS.h"
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>
@@ -19,7 +20,7 @@ sf::Color Tile::draw_color()
 	return sf::Color::Black;
 }
 
-Tile::Tile(double altitude)
+Tile::Tile(sf::Vector2i pos, double altitude)
 {
 	if ( altitude > 0.85f )
 		terrain = MOUNTAIN;
@@ -29,14 +30,27 @@ Tile::Tile(double altitude)
 		terrain = WATER;
 
 	this->altitude = altitude;
+	this->pos = pos;
 }
 
-Tile::Tile(Terrain_t terrain)
+Tile::Tile(sf::Vector2i pos, Terrain_t terrain)
 {
 	this->terrain = terrain;
+	this->pos = pos;
 }
 
-Tile::Tile()
+Tile::Tile(sf::Vector2i pos)
 {
 	terrain = LAND;
+	this->pos = pos;
+}
+
+sf::Vector2i Tile::get_pos()
+{
+	return pos;
+}
+
+sf::Vector2f Tile::get_world_coords()
+{
+	return sf::Vector2f(pos.x+CONSTANTS::tile_size/2, pos.y+CONSTANTS::tile_size/2);
 }
