@@ -9,6 +9,7 @@ set(CLIENT_SRC
 	src/UITools.cpp
 	src/World.cpp
 	src/Player.cpp
+	src/EventHandler.cpp
 	)
 
 set (SERVER_SRC
@@ -18,6 +19,7 @@ set (SERVER_SRC
 	src/UITools.cpp
 	src/World.cpp
 	src/Player.cpp
+	src/EventHandler.cpp
 	)
 
 include_directories(./include)

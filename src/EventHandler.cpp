@@ -30,17 +30,17 @@ void EventHandler::handle_events()
 	{
 		for ( auto e = events.begin(); e != events.end(); ++e )
 		{
-			if ( event.type == (**e).event )
+			if ( (**e).enabled == true )
 			{
-				if ( (**e).enabled == true )
-					(**e).event_callback();
+				(**e).event_callback(event);
 			}
 		}
 
 	}
 }
 
-void EventQuit::event_callback()
+void EventQuit::event_callback(sf::Event event)
 {
-	window->close();
+	if ( event.type == sf::Event::Closed )
+		window->close();
 }

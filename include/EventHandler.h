@@ -9,10 +9,8 @@
 
 
 /* SYNOPSIS
- * EventFunction - contains a callback function that is called when the specified
- * event occures.
- *
- * event: the event associated with the callback
+ * EventFunction - contains a callback function that will get called in the event handling
+ *  process
  *
  * enabled: if true, then the callback will be called. if false, the callback
  *   won't be called
@@ -22,21 +20,13 @@
  * USAGE
  * a new child class should be created for each type of operation. these child classes
  *  can hold the data that the callback needs to operate on. 
- *
- * TODO add a type of 'event' that gets called every frame
  */
 class EventFunction
 {
 public:
-	const sf::Event::EventType event;
 	bool enabled;
 
-	virtual void event_callback() = 0;
-
-	EventFunction(sf::Event::EventType event) : event(event)
-	{
-		enabled = true;
-	}
+	virtual void event_callback(sf::Event event) = 0;
 };
 
 /* SYNOPSIS
@@ -72,12 +62,13 @@ class EventQuit : public EventFunction
 {
 public:
 	sf::Window* window;
-	void event_callback();
+	void event_callback(sf::Event event);
 
 	// set the eventtype to closed
-	EventQuit(sf::Window* window) : EventFunction(sf::Event::Closed) 
+	EventQuit(sf::Window* window)
 	{
 		this->window = window;
+		enabled = true;
 	}
 };
 

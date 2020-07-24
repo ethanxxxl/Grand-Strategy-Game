@@ -16,6 +16,7 @@
 #include <UITools.h>
 #include <World.h>
 #include <EventHandler.h>
+#include <memory>
 
 int main()
 {
@@ -65,23 +66,22 @@ int main()
 	// and activate it
 	window.setView(view);
 
-
-	// Configure UI tools
-	UI_Tools::window = &window;
-	UI_Tools::view = &view;
-
-	UI_Tools::set_active_tool(UI_Tools::Interract);
-
 	// add a temporary player
 	Player p1("ethanxxxl");
 
 	// Start event handler
 	EventHandler eventhandler(&window);
 
+	// Start UI tools
+	auto ui_tools = std::make_shared<UITools>(&window, &view);
+	eventhandler.events.push_back(ui_tools);
+
+	ui_tools->set_active_tool(UITools::Pan);
+
 	// MAIN LOOP
 	while (window.isOpen())
 	{
-		window.clear(sf::Color(0x151515ff));
+		window.clear(sf::Color(0x505050ff));
 
 		// draw the world
 		the_world.draw(window);
@@ -92,6 +92,7 @@ int main()
 		// EVENT HANDLING
 		eventhandler.handle_events();
 
+		ui_tools->draw();
 
 		window.display();
 
