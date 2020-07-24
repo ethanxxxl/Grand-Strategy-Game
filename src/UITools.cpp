@@ -12,13 +12,17 @@
 
 UITools::UITools(sf::RenderWindow* window, sf::View* view)
 {
+	// fill in window and view details
 	this->window = window;
 	this->view = view;
-	enabled = true;
+	enabled = true;  // make sure the event is enabled
 }
 
 void UITools::set_active_tool(Tools tool)
 {
+	// creates a new tool object when the tool is switched.
+	//  if this ever causes problems, tool objects can be created in the constructor
+	//  and enabled/disabled when switching tools.
 	switch ( tool )
 	{
 		case Pan:
@@ -39,7 +43,7 @@ void UITools::set_active_tool(Tools tool)
 
 void UITools::event_callback(sf::Event event)
 {
-	// TODO look for certain key presses, then switch the active tool based on the key presss.
+	// Manage switching of tools based on player input
 	if ( event.type == sf::Event::KeyPressed )
 	{
 		if ( event.key.code == sf::Keyboard::I )
@@ -48,6 +52,7 @@ void UITools::event_callback(sf::Event event)
 			set_active_tool(Pan);
 	}
 
+	// call the active tool function (isn't inheritance great!?)
 	active_tool->function(event);
 }
 
@@ -55,6 +60,7 @@ void UITools::event_callback(sf::Event event)
  */
 void UITools::Pan::function(sf::Event event)
 {
+	// Zoom handling
 	if ( event.type == sf::Event::MouseWheelScrolled )
 	{
 		if (event.mouseWheelScroll.delta == 1)
@@ -65,6 +71,7 @@ void UITools::Pan::function(sf::Event event)
 		parent->window->setView(*parent->view);
 	}
 
+	// Pan handling
 	else if ( event.type == sf::Event::MouseMoved )
 	{
 		if ( sf::Mouse::isButtonPressed(sf::Mouse::Left) )
@@ -80,6 +87,7 @@ void UITools::Pan::function(sf::Event event)
 	}
 	else if ( event.type == sf::Event::MouseButtonPressed )
 	{
+		// I forget what exactly this stuff does, but I think it is important.
 		sf::Vector2i pixelPos = sf::Mouse::getPosition(*parent->window);
 		mouse_pos = parent->window->mapPixelToCoords(pixelPos);
 	}
@@ -96,16 +104,10 @@ UITools::Interact::Interact(UITools* parent) : Tool(parent)
 
 void UITools::Interact::function(sf::Event event)
 {
-	// when you hover over a tile, put a yellow square over top of it.
-	// when the player clicks, and there is a unit on that tile, the tile will start blinking
-	// when the player clicks another tile, then the unit will be moved to the new tile.
-
-	// tool is selected
-	// the player can select a tile
-	// the player can select another tile
-	// the unit is moved to the new tile
-	
-	// get the mouse position on the map
+	// TODO make this actually work.
+	// the player needs to be able to click on a tile, in order to select it,
+	// then the player needs to be able to click another tile, and have the units
+	// on the original tile move to the new one.
 	sf::Vector2i pixelPos = sf::Mouse::getPosition(*parent->window);
 	mouse_pos = parent->window->mapPixelToCoords(pixelPos);
 	highlighted_tile.setPosition(mouse_pos);

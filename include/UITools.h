@@ -14,13 +14,22 @@
 
 #include <EventHandler.h>
 
-// TODO change this to work with the new event handling system
-
-// the way this class works, is that you set the window, and the current active tool.
-// then, when you do you event handling, just stick use_tools() in with the event checking,
-// it will use the proper tool for you.
-//
-// you do not need to make an object for this.
+/* SYNOPSIS
+ * UITools: this is an EventFunction, it manages all player interaction with the game.
+ *  currently, to start this, an object must be made, and it needs to be attached to the
+ *  window and view that the game is in. The active tool can be changed in software or in
+ *  game, with the mapped keys.
+ *
+ * draw(): this function needs to be called *after* the map draw commands in the main
+ *  loop. This may change in the future.
+ *
+ * USAGE
+ * As highlighted above, a UITools object needs to be made for every window the player is
+ *  to interact with.
+ * To add a new tool to game, create a new sublass, derived from the Tool subclass, and
+ *  fill in the required fields. Having each tool encapsulated in a separate object allows
+ *  for more convenient operations such as drawing and event handling.
+ */
 class UITools : public EventFunction
 {
 public:
@@ -29,10 +38,15 @@ public:
 private:
 	struct Tool
 	{
+		// reference to the original UITools object that created this instance
 		UITools* parent;
 		Tool(UITools* parent) : parent(parent) {};
 		
+		// this is what the tool does
 		virtual void function(sf::Event event) = 0;
+
+		// anything that the tool needs to draw should be done here. this is called every
+		//  frame, while function is only called when there are events that need handled.
 		virtual void tool_draw() = 0;
 	};
 
