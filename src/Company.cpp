@@ -4,15 +4,18 @@
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <CONSTANTS.h>
+#include <Player.h>
 
-Company::Company(sf::Vector2i pos, int num_soldiers)
+Company::Company(int player_id, sf::Vector2i pos, int num_soldiers)
 {
+	this->player_id = player_id;
 	this->position = pos;
 	this->num_soldiers = num_soldiers;
 }
 
-Company::Company(sf::Vector2i pos)
+Company::Company(int player_id, sf::Vector2i pos)
 {
+	this->player_id = player_id;
 	this->position = pos;
 }
 
@@ -56,7 +59,8 @@ sf::Vector2i Company::get_position()
 void Company::draw(sf::RenderTarget& target, sf::Color color)
 {
 	sf::CircleShape dot(display_radius);
-	dot.setFillColor(color);
+	// use the player color
+	dot.setFillColor(Player::player_by_id(player_id)->color);
 
 	// vector2i isn't implicitly converted to vector2f
 	sf::Vector2f pos = sf::Vector2f(CONSTANTS::tile_size*(position.x-0.25),CONSTANTS::tile_size*(position.y-0.25));

@@ -7,6 +7,7 @@
 #include <SFML/Network/TcpSocket.hpp>
 #include <SFML/Graphics.hpp>
 #include <SFML/System/Vector2.hpp>
+#include <SFML/Window/Clipboard.hpp>
 #include <SFML/Window/Event.hpp>
 #include <SFML/Window/Mouse.hpp>
 #include <iostream>
@@ -68,6 +69,8 @@ int main()
 
 	// add a temporary player
 	Player p1("ethanxxxl");
+	p1.color = sf::Color::Blue;
+	
 
 	// Start event handler
 	EventHandler eventhandler(&window);

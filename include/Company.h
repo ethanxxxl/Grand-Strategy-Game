@@ -11,12 +11,12 @@ private:
 	static const int display_radius = 3;
 	sf::Vector2i position;
 
-	// TODO: think about using smart pointers for the location of items.
-	// TODO: figure out how you are going to structure this stuff.
+	// this is the ID of the player that owns this company.
+	int player_id;
 
 public:
-	Company(sf::Vector2i pos, int num_soldiers);
-	Company(sf::Vector2i pos);
+	Company(int player_id, sf::Vector2i pos, int num_soldiers);
+	Company(int player_id, sf::Vector2i pos);
 
 	int get_soldiers();
 	void remove_soldiers(int num);
