@@ -63,7 +63,8 @@ void Company::draw(sf::RenderTarget& target, sf::Color color)
 	dot.setFillColor(Player::player_by_id(player_id)->color);
 
 	// vector2i isn't implicitly converted to vector2f
-	sf::Vector2f pos = sf::Vector2f(CONSTANTS::tile_size*(position.x-0.25),CONSTANTS::tile_size*(position.y-0.25));
+	using namespace CONSTANTS;
+	sf::Vector2f pos = sf::Vector2f(tile_size*(position.x+0.5f)-display_radius, tile_size*(position.y+0.5f)-display_radius);
 	dot.setPosition(pos);
 	target.draw(dot);
 }

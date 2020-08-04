@@ -69,7 +69,7 @@ int main()
 
 	// add a temporary player
 	Player p1("ethanxxxl");
-	p1.color = sf::Color::Blue;
+	p1.color = sf::Color::Red;
 	
 
 	// Start event handler
