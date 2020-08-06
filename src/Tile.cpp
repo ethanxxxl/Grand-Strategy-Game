@@ -31,18 +31,21 @@ Tile::Tile(sf::Vector2i pos, double altitude)
 
 	this->altitude = altitude;
 	this->pos = pos;
+	this->company = NULL;
 }
 
 Tile::Tile(sf::Vector2i pos, Terrain_t terrain)
 {
 	this->terrain = terrain;
 	this->pos = pos;
+	this->company = NULL;
 }
 
 Tile::Tile(sf::Vector2i pos)
 {
 	terrain = LAND;
 	this->pos = pos;
+	this->company = NULL;
 }
 
 sf::Vector2i Tile::get_pos()
@@ -50,7 +53,7 @@ sf::Vector2i Tile::get_pos()
 	return pos;
 }
 
-sf::Vector2f Tile::get_world_coords()
+sf::Vector2f Tile::get_spacial_coords()
 {
 	return sf::Vector2f(pos.x+CONSTANTS::tile_size/2, pos.y+CONSTANTS::tile_size/2);
 }

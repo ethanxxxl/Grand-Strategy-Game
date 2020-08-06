@@ -17,6 +17,9 @@
 
 World::World(int size_x, int size_y)
 {
+	this->size_x = size_x;
+	this->size_y = size_y;
+
 	// generate a world
 	noise::module::Perlin noise_module;
 	srand(time(NULL));
@@ -87,4 +90,24 @@ void World::draw(sf::RenderTarget &target)
 {
 	target.draw(tile_map);
 	target.draw(grid_map);
+}
+
+Tile* World::at(int x, int y)
+{
+	return &(world_data[x][y]);
+}
+
+Tile* World::at(sf::Vector2i pos)
+{
+	return &(world_data[pos.x][pos.y]);
+}
+
+Tile* World::at(sf::Vector2f pos)
+{
+	return &(world_data[floor(pos.x)][floor(pos.y)]);
+}
+
+sf::Vector2i World::get_size()
+{
+	return sf::Vector2i(size_x, size_y);
 }

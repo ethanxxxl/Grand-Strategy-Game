@@ -5,9 +5,11 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <memory>
-#include <Company.h>
 #include <noise/module/terrace.h>
 #include <CONSTANTS.h>
+
+class Tile;
+#include <Company.h>
 
 class Tile
 {
@@ -18,6 +20,10 @@ private:
 public:
 	enum Terrain_t { LAND, WATER, MOUNTAIN};
 	Terrain_t terrain;
+
+	/* Game things that are on this tile
+	 */
+	Company* company;
 
 	double altitude;
 
@@ -31,7 +37,7 @@ public:
 	sf::Vector2i get_pos();
 	// returns the coordinates of the center of
 	// the  tile in world space
-	sf::Vector2f get_world_coords();
+	sf::Vector2f get_spacial_coords();
 };
 
 #endif

@@ -5,15 +5,18 @@
 
 std::vector<Player*> Player::players = std::vector<Player*>();
 
-Player::Player(std::string username)
+Player::Player(World* world, std::string username)
 {
 	player_id = players.size();
 	players.push_back(this);
 	
 	this->username = username;
+	this->world = world;
 
-	companies = std::vector<Company>();
-	companies.push_back(Company(player_id, sf::Vector2i(3, 3)));
+	companies = std::vector<Company*>();
+	
+	// TODO this is not deleted, only for a test
+	companies.push_back(new Company(this, world, sf::Vector2i(3, 3)));
 }
 
 Player::~Player()
@@ -26,7 +29,7 @@ void Player::draw(sf::RenderTarget& target)
 {
 	for ( auto c = companies.begin(); c != companies.end(); ++c )
 	{
-		c->draw(target, color);
+		(**c).draw(target, color);
 	}
 }
 

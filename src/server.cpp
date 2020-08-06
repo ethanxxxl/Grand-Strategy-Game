@@ -68,7 +68,7 @@ int main()
 	window.setView(view);
 
 	// add a temporary player
-	Player p1("ethanxxxl");
+	Player p1(&the_world, "ethanxxxl");
 	p1.color = sf::Color::Red;
 	
 
@@ -76,7 +76,7 @@ int main()
 	EventHandler eventhandler(&window);
 
 	// Start UI tools
-	auto ui_tools = std::make_shared<UITools>(&window, &view);
+	auto ui_tools = std::make_shared<UITools>(&window, &view, &the_world);
 	eventhandler.events.push_back(ui_tools);
 
 	ui_tools->set_active_tool(UITools::Pan);

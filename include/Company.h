@@ -3,6 +3,11 @@
 
 #include <SFML/Graphics.hpp>
 #include <SFML/System/Vector2.hpp>
+#include <memory>
+
+class Company;
+#include <World.h>
+#include <Player.h>
 
 class Company
 {
@@ -10,13 +15,16 @@ private:
 	int num_soldiers = 150;
 	static const int display_radius = 3;
 	sf::Vector2i position;
+	
+	// this is the player that owns this company
+	Player* player;
 
-	// this is the ID of the player that owns this company.
-	int player_id;
+	// this is the world that the company resides in.
+	World* world;
 
 public:
-	Company(int player_id, sf::Vector2i pos, int num_soldiers);
-	Company(int player_id, sf::Vector2i pos);
+	Company(Player* player, World* world, sf::Vector2i pos, int num_soldiers);
+	Company(Player* player, World* world, sf::Vector2i pos);
 
 	int get_soldiers();
 	void remove_soldiers(int num);
@@ -25,6 +33,7 @@ public:
 	static void fight(Company attacker, Company defender);
 
 	void move(sf::Vector2i new_pos);
+	void move(Tile* new_tile);
 	sf::Vector2i get_position();
 
 	// draws the company at pos
