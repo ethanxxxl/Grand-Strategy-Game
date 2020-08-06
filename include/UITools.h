@@ -12,6 +12,8 @@
 #include <string>
 #include <memory>
 
+#include <World.h>
+
 #include <EventHandler.h>
 
 /* SYNOPSIS
@@ -61,9 +63,18 @@ private:
 
 	struct Interact : public Tool
 	{
+	private:
+		enum State { select_src, select_dest } state;
 		sf::Vector2f mouse_pos;
-		sf::RectangleShape highlighted_tile;
+		sf::RectangleShape hover_tile;
+		sf::RectangleShape src_tile_gfx;
 
+		World* world;
+
+		Tile* src_tile;
+		Tile* dest_tile;
+
+	public:
 		void function(sf::Event event) override;
 		Interact(UITools* parent);
 		void tool_draw() override;
@@ -74,8 +85,9 @@ private:
 public:
 	sf::RenderWindow* window;
 	sf::View* view;
+	World* world;
 
-	UITools(sf::RenderWindow* window, sf::View* view);
+	UITools(sf::RenderWindow* window, sf::View* view, World* world);
 
 	void set_active_tool(Tools tool);
 	void event_callback(sf::Event event) override;

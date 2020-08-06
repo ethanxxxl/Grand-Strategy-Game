@@ -7,14 +7,16 @@
 #include <SFML/Window/Keyboard.hpp>
 #include <SFML/Window/Mouse.hpp>
 #include <UITools.h>
+#include <limits>
 #include <memory>
 #include <iostream>
 
-UITools::UITools(sf::RenderWindow* window, sf::View* view)
+UITools::UITools(sf::RenderWindow* window, sf::View* view, World* world)
 {
 	// fill in window and view details
 	this->window = window;
 	this->view = view;
+	this->world = world;
 	enabled = true;  // make sure the event is enabled
 }
 
@@ -98,24 +100,90 @@ void UITools::Pan::function(sf::Event event)
  */
 UITools::Interact::Interact(UITools* parent) : Tool(parent)
 {
-	highlighted_tile = sf::RectangleShape(sf::Vector2f(CONSTANTS::tile_size, CONSTANTS::tile_size));
-	highlighted_tile.setFillColor(sf::Color::White);
+	hover_tile = sf::RectangleShape(sf::Vector2f(CONSTANTS::tile_size, CONSTANTS::tile_size));
+	hover_tile.setFillColor(sf::Color::White);
+
+	src_tile_gfx = sf::RectangleShape(sf::Vector2f(CONSTANTS::tile_size, CONSTANTS::tile_size));
+	src_tile_gfx.setFillColor(sf::Color::Yellow);
+
+	world = parent->world;
+	state = select_src;
 }
 
 void UITools::Interact::function(sf::Event event)
 {
-	// TODO make this actually work.
-	// the player needs to be able to click on a tile, in order to select it,
-	// then the player needs to be able to click another tile, and have the units
-	// on the original tile move to the new one.
+	// find the mouse position
 	sf::Vector2i pixelPos = sf::Mouse::getPosition(*parent->window);
 	mouse_pos = parent->window->mapPixelToCoords(pixelPos);
-	highlighted_tile.setPosition(mouse_pos);
+
+	// find the coords for the tile the mouse is over
+	auto hover_tile_coords = mouse_pos / CONSTANTS::tile_size;
+	hover_tile_coords = sf::Vector2f(std::floor(hover_tile_coords.x), std::floor(hover_tile_coords.y));
+	
+	// tool state machine
+	if ( sf::Mouse::isButtonPressed(sf::Mouse::Left) )
+	{
+	switch ( state )
+		{
+			// when in this state, the player needs to select the first tile
+			case select_src:
+			{
+				// bounds checking
+				if ( ( hover_tile_coords.x >= 0 and hover_tile_coords.x < world->get_size().x ) and \
+					 ( hover_tile_coords.y >= 0 and hover_tile_coords.y < world->get_size().y ) )
+				{
+					// grap pointer to the src tile
+					src_tile = world->at(hover_tile_coords);
+					
+					// make sure there is a company on this tile
+					if ( src_tile->company != NULL )
+					{
+						src_tile_gfx.setPosition(hover_tile_coords*CONSTANTS::tile_size);
+						state = select_dest;
+					}
+				}
+
+				break;
+			}
+
+			// when in this state, the player needs to select the second tile
+			case select_dest:
+			{
+				// bounds checking
+				if ( ( hover_tile_coords.x >= 0 and hover_tile_coords.x < world->get_size().x ) and \
+					 ( hover_tile_coords.y >= 0 and hover_tile_coords.y < world->get_size().y ) )
+				{
+					// get a pointer the dest tile
+					dest_tile = world->at(hover_tile_coords);
+					if ( dest_tile == src_tile )
+					{
+						// if they are the same tile, don't try to move the company, and muck things up
+						//  also prevents the dragging 'n' drop "feature"
+						state = select_src;
+					}
+					else if ( dest_tile->company == NULL )
+					{
+						// there is not a company on the destination tile, so just move it there.
+						src_tile->company->move(dest_tile);
+						state = select_src;
+					}
+					// TODO implement fighting
+				}
+
+				break;
+			}
+		}
+	}
+
+	hover_tile.setPosition(hover_tile_coords*CONSTANTS::tile_size);
 }
 
 void UITools::Interact::tool_draw()
 {
-	parent->window->draw(highlighted_tile);
+	parent->window->draw(hover_tile);
+
+	if ( state == select_dest )
+		parent->window->draw(src_tile_gfx);
 }
 
 void UITools::draw()
