@@ -1,28 +1,23 @@
 #include "Company.h"
+#include "World.h"
 #include <Player.h>
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/System/Vector2.hpp>
+#include <memory>
 
-std::vector<Player*> Player::players = std::vector<Player*>();
-
-Player::Player(World* world, std::string username)
+Player::Player(std::shared_ptr<World> world, std::string username)
 {
-	player_id = players.size();
-	players.push_back(this);
-	
 	this->username = username;
 	this->world = world;
 
-	companies = std::vector<Company*>();
-	
-	// TODO this is not deleted, only for a test
-	companies.push_back(new Company(this, world, sf::Vector2i(3, 3)));
+	// initialize the company list
+	companies = std::vector<std::unique_ptr<Company>>();
 }
 
-Player::~Player()
+void Player::new_company(int size, sf::Vector2i pos)
 {
-	// remove this player from the list
-	players.erase(players.begin()+player_id);
+	// add a new company to the list
+	companies.push_back(std::make_unique<Company>(size, pos));
 }
 
 void Player::draw(sf::RenderTarget& target)
@@ -31,9 +26,4 @@ void Player::draw(sf::RenderTarget& target)
 	{
 		(**c).draw(target, color);
 	}
-}
-
-Player* Player::player_by_id(int id)
-{
-	return players[id];
 }

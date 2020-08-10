@@ -10,23 +10,20 @@
 #include <Player.h>
 #include <World.h>
 
-Company::Company(Player* player, World* world, sf::Vector2i pos, int num_soldiers)
+Company::Company(Player* player, sf::Vector2i pos, int num_soldiers)
 {
-	Company(player, world, pos);
+	Company(player,  pos);
 	this->num_soldiers = num_soldiers;
 }
 
-Company::Company(Player* player, World* world, sf::Vector2i pos)
+Company::Company(Player* player, sf::Vector2i pos)
 {
 	this->player = player;
-	this->world = world;
+	this->world = player->world;
 	this->position = pos;
 	
 	// update the position in the world
 	world->at(pos)->company = this;
-	
-	// add this company to the player list
-	player->companies.push_back(this);
 }
 
 

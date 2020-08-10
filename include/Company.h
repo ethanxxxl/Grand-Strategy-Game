@@ -15,16 +15,17 @@ private:
 	int num_soldiers = 150;
 	static const int display_radius = 3;
 	sf::Vector2i position;
+
 	
 	// this is the player that owns this company
 	Player* player;
 
 	// this is the world that the company resides in.
-	World* world;
+	std::shared_ptr<World> world;
 
 public:
-	Company(Player* player, World* world, sf::Vector2i pos, int num_soldiers);
-	Company(Player* player, World* world, sf::Vector2i pos);
+	Company(Player* player, sf::Vector2i pos, int num_soldiers);
+	Company(Player* player, sf::Vector2i pos);
 
 	int get_soldiers();
 	void remove_soldiers(int num);

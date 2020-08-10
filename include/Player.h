@@ -13,30 +13,33 @@ class Player;
 class Player
 {
 private:
-    // list of all player objects. When a new player object is constructed,
-    //  it is automatically added to this list.
-    static std::vector<Player*> players;
-
-	// TODO think about removing this, just use pointers
-    // this is how assets will know what player they belong to.
-    //  it is really just this players position in the players array.
-    int player_id;
-
-	World* world;
-
-public:
+	// these things don't need to change
 	std::string username;
 	sf::Color color = sf::Color::Black;
 
-	std::vector<Company*> companies;
+public:
+	/*
+	 * Member Data
+	 */
+	std::shared_ptr<World> world;
 
-	Player(World* world, std::string username);
-	~Player();
+	std::vector<std::unique_ptr<Company>> companies;
+	// std::vector<std::unique_ptr<City>> cities;
+	// std::vector<std::unique_ptr<Farm>> farms;
+	// ...
+
+	/*
+	 * Constructors
+	 */
+	Player(std::shared_ptr<World> world, std::string username);
+
+	/*
+	 * Methods
+	 */
+	void new_company(int size, sf::Vector2i pos);
 
 
 	void draw(sf::RenderTarget& target);
-	// returns pointer to a certain player when you only have the player id
-	static Player* player_by_id(int id);
 };
 
 #endif
