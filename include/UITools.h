@@ -28,8 +28,8 @@
  * USAGE
  * As highlighted above, a UITools object needs to be made for every window the player is
  *  to interact with.
- * To add a new tool to game, create a new sublass, derived from the Tool subclass, and
- *  fill in the required fields. Having each tool encapsulated in a separate object allows
+ * To add a new tool to the game, create a new sublass, derived from the Tool subclass, and
+ *  fill in the required fields. Having each tool encapsulated in a separate class allows
  *  for more convenient operations such as drawing and event handling.
  */
 class UITools : public EventFunction
@@ -43,7 +43,6 @@ private:
 		// reference to the original UITools object that created this instance
 		UITools* parent;
 		Tool(UITools* parent) : parent(parent) {};
-		
 		// this is what the tool does
 		virtual void function(sf::Event event) = 0;
 
@@ -69,7 +68,7 @@ private:
 		sf::RectangleShape hover_tile;
 		sf::RectangleShape src_tile_gfx;
 
-		World* world;
+		std::shared_ptr<World> world;
 
 		Tile* src_tile;
 		Tile* dest_tile;
@@ -85,9 +84,10 @@ private:
 public:
 	sf::RenderWindow* window;
 	sf::View* view;
-	World* world;
 
-	UITools(sf::RenderWindow* window, sf::View* view, World* world);
+	std::shared_ptr<World> world;
+
+	UITools(sf::RenderWindow* window, sf::View* view, std::shared_ptr<World> world);
 
 	void set_active_tool(Tools tool);
 	void event_callback(sf::Event event) override;

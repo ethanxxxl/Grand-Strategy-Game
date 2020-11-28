@@ -21,43 +21,52 @@
 
 int main()
 {
-//    std::cout << "waiting for a connection..." << std::endl;
-//	// bind the listener to a port
-//	sf::TcpListener listener;
-//	if (listener.listen(53000) != sf::Socket::Done)
-//	{
-//		// error
-//	}
-//
-//
-//	// accept a new connection
-//	sf::TcpSocket client;
-//	if ( listener.accept(client) != sf::Socket::Done )
-//	{
-//		// errror
-//	}
-//
-//    std::cout << "recieved a connection\nrecieving data..." << std::endl;
-//
-//	// use client to communicate with the connected server,
-//	// and continue to accept new connections with the listener
-//	char buf[100];
-//	std::size_t recieved;
-//	if ( client.receive(buf, 100, recieved) != sf::Socket::Done )
-//	{
-//		// there was an error
-//	}
-//
-//
-//	std::cout << buf << std::endl;
-//
-//	client.disconnect();
+	// create a game, set up players, wait for connection
+	// client connects to the server as a player.
+	// server sends client game data
+    std::cout << "waiting for a connection..." << std::endl;
+	// bind the listener to a port
+	sf::TcpListener listener;
+	if (listener.listen(53000) != sf::Socket::Done)
+	{
+		// error
+	}
 
+
+	// accept a new connection
+	sf::TcpSocket client;
+	if ( listener.accept(client) != sf::Socket::Done )
+	{
+		// errror
+	}
+
+    std::cout << "recieved a connection\nrecieving data..." << std::endl;
+
+	// use client to communicate with the connected server,
+	// and continue to accept new connections with the listener
+	char buf[100];
+	std::size_t recieved;
+	if ( client.receive(buf, 100, recieved) != sf::Socket::Done )
+	{
+		// there was an error
+	}
+
+
+	std::cout << buf << std::endl;
+
+	client.disconnect();
+
+//
+//
+//
+//
+//
+//
 	// GENERATE WORLD MAP
 	const int WORLD_SIZE_X = 25;
 	const int WORLD_SIZE_Y = 25;
 
-	World the_world(WORLD_SIZE_X, WORLD_SIZE_Y);
+	auto the_world = std::make_shared<World>(WORLD_SIZE_X, WORLD_SIZE_Y);
 
 	// create the window
 	sf::RenderWindow window(sf::VideoMode(800, 400), "SFML works!");
@@ -68,15 +77,13 @@ int main()
 	window.setView(view);
 
 	// add a temporary player
-	Player p1(&the_world, "ethanxxxl");
-	p1.color = sf::Color::Red;
-	
+	Player p1("ethanxxxl", sf::Color::Red, the_world);
 
 	// Start event handler
 	EventHandler eventhandler(&window);
 
 	// Start UI tools
-	auto ui_tools = std::make_shared<UITools>(&window, &view, &the_world);
+	auto ui_tools = std::make_shared<UITools>(&window, &view, the_world);
 	eventhandler.events.push_back(ui_tools);
 
 	ui_tools->set_active_tool(UITools::Pan);
@@ -87,7 +94,7 @@ int main()
 		window.clear(sf::Color(0x505050ff));
 
 		// draw the world
-		the_world.draw(window);
+		the_world->draw(window);
 
 		// draw player stuff
 		p1.draw(window);

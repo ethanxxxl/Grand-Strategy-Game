@@ -63,8 +63,7 @@ Finished Product Goals
 ===
 
 ##World
-The world will be randomly generated, and split into either a square or
-hexagonal lattice - I haven't decided yet.
+The world will be randomly generated, and split into either a _hexagonal grid_
 
 Each tile will have resources that will be exploited by the population.
 

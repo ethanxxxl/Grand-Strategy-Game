@@ -84,7 +84,7 @@ void Company::draw(sf::RenderTarget& target, sf::Color color)
 {
 	sf::CircleShape dot(display_radius);
 	// use the player color
-	dot.setFillColor(player->color);
+	dot.setFillColor(player->get_color());
 
 	// vector2i isn't implicitly converted to vector2f
 	using namespace CONSTANTS;

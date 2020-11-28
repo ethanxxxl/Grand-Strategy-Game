@@ -15,7 +15,7 @@ class Player
 private:
 	// these things don't need to change
 	std::string username;
-	sf::Color color = sf::Color::Black;
+	sf::Color color;
 
 public:
 	/*
@@ -31,13 +31,15 @@ public:
 	/*
 	 * Constructors
 	 */
-	Player(std::shared_ptr<World> world, std::string username);
+	Player(std::string username, sf::Color color);
+	Player(std::string username, sf::Color color, std::shared_ptr<World> world);
 
 	/*
 	 * Methods
 	 */
-	void new_company(int size, sf::Vector2i pos);
-
+	void add_company(int size, sf::Vector2i pos);
+	sf::Color get_color();
+	std::string get_username();
 
 	void draw(sf::RenderTarget& target);
 };

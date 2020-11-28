@@ -11,7 +11,7 @@
 #include <memory>
 #include <iostream>
 
-UITools::UITools(sf::RenderWindow* window, sf::View* view, World* world)
+UITools::UITools(sf::RenderWindow* window, sf::View* view, std::shared_ptr<World> world)
 {
 	// fill in window and view details
 	this->window = window;
@@ -119,7 +119,6 @@ void UITools::Interact::function(sf::Event event)
 	// find the coords for the tile the mouse is over
 	auto hover_tile_coords = mouse_pos / CONSTANTS::tile_size;
 	hover_tile_coords = sf::Vector2f(std::floor(hover_tile_coords.x), std::floor(hover_tile_coords.y));
-	
 	// tool state machine
 	if ( sf::Mouse::isButtonPressed(sf::Mouse::Left) )
 	{

@@ -10,6 +10,7 @@ set(CLIENT_SRC
 	src/World.cpp
 	src/Player.cpp
 	src/EventHandler.cpp
+	#	src/Game.cpp
 	)
 
 set (SERVER_SRC
@@ -20,6 +21,7 @@ set (SERVER_SRC
 	src/World.cpp
 	src/Player.cpp
 	src/EventHandler.cpp
+	#	src/Game.cpp
 	)
 
 include_directories(./include)
