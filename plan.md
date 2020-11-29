@@ -7,7 +7,7 @@ Revision 1 Technical Requirements
 
 This will be a multiplayer game, so there should be a server and a client.
 
-##Server
+## Server
 on startup, it will create a game _(in the future, it will have the option to
 load a game)_, and sets up players. For now, these can just be command line
 arguments.
@@ -27,7 +27,7 @@ updated version of the game. This will replace the current version of the game
 on the server. _(in the future, the server will conduct a check on the new game
 state, to make sure that no illegal moves were made.)_
 
-##Client
+## Client
 When the client connects to the server, it will receive the most up-to-date
 version of the game. If it is the players turn, then the client will allow the
 player to take their turn. Once their turn is completed, the client will send
@@ -42,10 +42,10 @@ The client should have a simple graphical interface for the game. This
 interface will display the map, and allow the player to click on companies and
 move them around
 
-##Gameplay
+## Gameplay
 This first revision will have the most rudimentary game-play possible.
 
-###Map Generation
+### Map Generation
 The server should generate a square map _(in the future the map will instead
 consist of hexagonal tiles)_ and put a starting city for each player somewhere
 on the map (no checks will be done to make sure that they are far apart). Each
@@ -62,23 +62,23 @@ able to move onto water, only on land
 Finished Product Goals
 ===
 
-##World
+## World
 The world will be randomly generated, and split into either a _hexagonal grid_
 
 Each tile will have resources that will be exploited by the population.
 
 
-##GDP
+## GDP
 The player is a ruler of a capitalistic nation. They do not need to worry about
 increasing their GDP each turn. That will happen automatically.
 
-##Military
+## Military
 The size of the players military is affected by the population. The
 population should stay fairly constant throughout the game, as I don't think wars don't
 typically last long enough for populations to significantly increase. To
 increase the head count of the military,
 
-####Army
+### Army
 Army structure will be based off of the US army. The player will be able to
 divide the army into Divisions, Brigades, Battalions, and Companies.
 
@@ -97,6 +97,6 @@ All of those values will be multiplied together to form that companies __Combat
 Effectiveness (CE)__. The combat effectiveness of a company helps determine the
 outcome of combat on a specific tile.
 
-##Combat
+## Combat
 if a player decides that they want to attack a tile, they will have to move the
 companies onto a tile that is within their range.
