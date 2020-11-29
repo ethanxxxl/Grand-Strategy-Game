@@ -2,14 +2,15 @@
 #define PLAYER_H
 
 #include <SFML/Graphics/Color.hpp>
-#include <SFML/Graphics/RenderTarget.hpp>
 #include <string>
 #include <vector>
 
 class Player;
-#include <Company.h>
-#include <World.h>
 
+/* SYNOPSIS
+ * players represent people that play the game. This will hold their information, and
+ * it can be referenced show who owns a particular entity.
+ */
 class Player
 {
 private:
@@ -19,29 +20,15 @@ private:
 
 public:
 	/*
-	 * Member Data
-	 */
-	std::shared_ptr<World> world;
-
-	std::vector<std::unique_ptr<Company>> companies;
-	// std::vector<std::unique_ptr<City>> cities;
-	// std::vector<std::unique_ptr<Farm>> farms;
-	// ...
-
-	/*
 	 * Constructors
 	 */
 	Player(std::string username, sf::Color color);
-	Player(std::string username, sf::Color color, std::shared_ptr<World> world);
 
 	/*
 	 * Methods
 	 */
-	void add_company(int size, sf::Vector2i pos);
 	sf::Color get_color();
 	std::string get_username();
-
-	void draw(sf::RenderTarget& target);
 };
 
 #endif

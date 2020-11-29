@@ -8,9 +8,6 @@
 #include <noise/module/terrace.h>
 #include <CONSTANTS.h>
 
-class Tile;
-#include <Company.h>
-
 class Tile
 {
 private:
@@ -21,12 +18,8 @@ public:
 	enum Terrain_t { LAND, WATER, MOUNTAIN};
 	Terrain_t terrain;
 
-	/* Game things that are on this tile
-	 */
-	Company* company;
-
 	double altitude;
-
+	
 	Tile(sf::Vector2i pos);
 	Tile(sf::Vector2i pos, double altitude);
 	Tile(sf::Vector2i pos, Terrain_t terrain);

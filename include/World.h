@@ -8,7 +8,6 @@
 #include <vector>
 #include <cstdint>
 
-class World;
 #include <Tile.h>
 
 class World
@@ -16,20 +15,18 @@ class World
 private:
 	std::vector<std::vector<Tile>> world_data;
 
-	int size_x;
-	int size_y;
+	int size;
 
 	sf::VertexArray tile_map;
 	sf::VertexArray grid_map;
 
 public:
-	World(int size_x, int size_y);
-	void draw(sf::RenderTarget &target);
+	World(int size);
 
-	Tile* at(int x, int y);
-	Tile* at(sf::Vector2i pos);
+	Tile& at(int x, int y);
+	Tile& at(sf::Vector2i pos);
 	// note that when using a float, the index will be rounded down with floor().
-	Tile* at(sf::Vector2f pos);
+	Tile& at(sf::Vector2f pos);
 
 	sf::Vector2i get_size();
 };

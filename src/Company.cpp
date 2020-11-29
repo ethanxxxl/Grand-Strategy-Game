@@ -1,29 +1,19 @@
 #include <iostream>
 #include <Company.h>
-#include <SFML/Graphics.hpp>
-#include <SFML/Graphics/CircleShape.hpp>
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <CONSTANTS.h>
 #include <memory>
 
-#include <Player.h>
-#include <World.h>
-
-Company::Company(Player* player, sf::Vector2i pos, int num_soldiers)
+Company::Company(Player& player, sf::Vector2i pos, int num_soldiers) : player(player)
 {
-	Company(player,  pos);
+	this->position = pos;
 	this->num_soldiers = num_soldiers;
 }
 
-Company::Company(Player* player, sf::Vector2i pos)
+Company::Company(Player& player, sf::Vector2i pos) : player(player)
 {
-	this->player = player;
-	this->world = player->world;
 	this->position = pos;
-	
-	// update the position in the world
-	world->at(pos)->company = this;
 }
 
 
@@ -44,7 +34,7 @@ void Company::add_soldiers(int num)
 	num_soldiers += num;
 }
 
-void Company::fight(Company attacker, Company defender)
+void Company::fight(Company& attacker, Company& defender)
 {
 	// this is a super simple combat algorithm, it will definitely change
 	//  in the future.
@@ -55,15 +45,16 @@ void Company::fight(Company attacker, Company defender)
 void Company::move(sf::Vector2i new_pos)
 {
 	// TODO add limits on how far a company can move per turn
+	// TODO fix this to work with the new system
 	
 	// bounds cheching
-	if ( ( new_pos.x >= 0 and new_pos.x < world->get_size().x ) and \
+	//if ( ( new_pos.x >= 0 and new_pos.x < world->get_size().x ) and \
 		 ( new_pos.y >= 0 and new_pos.y < world->get_size().y ) )
 	{
 		// remove the company from the old tile
-		world->at(position)->company = NULL;
+		//world->at(position)->company = NULL;
 		// put the company on the new tile
-		world->at(new_pos)->company = this;
+		//world->at(new_pos)->company = this;
 
 		// update the new position
 		position = new_pos;
@@ -80,15 +71,7 @@ sf::Vector2i Company::get_position()
 	return position;
 }
 
-void Company::draw(sf::RenderTarget& target, sf::Color color)
+void Company::draw(GraphicsManager &gm)
 {
-	sf::CircleShape dot(display_radius);
-	// use the player color
-	dot.setFillColor(player->get_color());
-
-	// vector2i isn't implicitly converted to vector2f
-	using namespace CONSTANTS;
-	sf::Vector2f pos = sf::Vector2f(tile_size*(position.x+0.5f)-display_radius, tile_size*(position.y+0.5f)-display_radius);
-	dot.setPosition(pos);
-	target.draw(dot);
+	gm.draw_company(*this);
 }
