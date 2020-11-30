@@ -16,23 +16,27 @@ int main()
 	// start new game
 	Game game = Game(players, 500);
 
-	GraphicsManager gm(game, 800, 600);
+	sf::RenderWindow window(sf::VideoMode(800, 600), "SFML Works!");
+
+
+	GraphicsManager gm(window, game, 800, 600);
 
 	// start event handling and UI stuff
-	EventHandler eventhandler(gm.get_window());
+	EventHandler eventhandler(window);
 	//auto ui_tools = std::make_shared<UITools>(gm.get_window(), gm.get_view(), &game);
 	//eventhandler.events.push_back(ui_tools);
+
 	
-	while ( gm.get_window()->isOpen() )
+	while ( window.isOpen() )
 	{
-		gm.get_window()->clear(sf::Color(0x505050ff));
+		window.clear(sf::Color(0x505050ff));
 
 		// draw game stuff
 		gm.draw_all();
 
 		eventhandler.handle_events();
 		
-		gm.get_window()->display();
+		window.display();
 	}
 }
 

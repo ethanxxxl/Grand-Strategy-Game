@@ -6,7 +6,7 @@ set(CLIENT_SRC
 	src/client.cpp
     src/Company.cpp
     src/Tile.cpp
-	#	src/UITools.cpp
+	src/UITools.cpp
 	src/World.cpp
 	src/Player.cpp
 	src/EventHandler.cpp
@@ -19,7 +19,7 @@ set (SERVER_SRC
 	src/server.cpp
     src/Company.cpp
     src/Tile.cpp
-	#	src/UITools.cpp
+	src/UITools.cpp
 	src/World.cpp
 	src/Player.cpp
 	src/EventHandler.cpp

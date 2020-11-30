@@ -2,7 +2,8 @@
 #define EVENT_HANDLER_H
 
 #include <SFML/Window/Event.hpp>
-#include <SFML/Window/Window.hpp>
+
+#include <SFML/Window.hpp>
 #include <memory>
 #include <vector>
 #include <functional>
@@ -24,7 +25,13 @@
 class EventFunction
 {
 public:
+	// all eventfunctions will likley need to access the window,
+	//  since the events come from the window
+	sf::Window& window;
 	bool enabled;
+
+	// simple constructor to initialize window
+	EventFunction(sf::Window& window) : window(window) {};
 
 	virtual void event_callback(sf::Event event) = 0;
 };
@@ -44,10 +51,10 @@ public:
 class EventHandler
 {
 private:
-	sf::Window* window;
+	sf::Window& window;
 
 public:
-	EventHandler(sf::Window* window);
+	EventHandler(sf::Window& window);
 
 	std::vector<std::shared_ptr<EventFunction>> events;
 	~EventHandler();
@@ -61,13 +68,11 @@ public:
 class EventQuit : public EventFunction
 {
 public:
-	sf::Window* window;
 	void event_callback(sf::Event event);
 
 	// set the eventtype to closed
-	EventQuit(sf::Window* window)
+	EventQuit(sf::Window& window) : EventFunction(window)
 	{
-		this->window = window;
 		enabled = true;
 	}
 };

@@ -5,11 +5,8 @@
 #include <iostream>
 
 
-EventHandler::EventHandler(sf::Window* window)
+EventHandler::EventHandler(sf::Window& window) : window(window)
 {
-	// save the reference to the window
-	this->window = window;
-
 	auto quit_event = std::make_shared<EventQuit>(window);
 	events.push_back(quit_event);
 }
@@ -26,7 +23,7 @@ void EventHandler::handle_events()
 {
 	sf::Event event;
 	// poll all of the events
-	while (window->pollEvent(event))
+	while (window.pollEvent(event))
 	{
 		for ( auto e = events.begin(); e != events.end(); ++e )
 		{
@@ -42,5 +39,5 @@ void EventHandler::handle_events()
 void EventQuit::event_callback(sf::Event event)
 {
 	if ( event.type == sf::Event::Closed )
-		window->close();
+		window.close();
 }

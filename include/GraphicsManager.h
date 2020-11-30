@@ -18,7 +18,8 @@ private:
 
 	// you may want to include a sprite sheet or something in here
 	// for textures
-	sf::RenderWindow window;
+	
+	sf::RenderWindow& window; // this is a reference because an sf::window does more than graphics
 	sf::View view;
 
 	// map constants
@@ -28,11 +29,10 @@ private:
 
 
 public:
-	GraphicsManager(Game& game, int win_width, int win_height);
+	GraphicsManager(sf::RenderWindow& window, Game& game, int win_width, int win_height);
 	
-	// TODO temporary just so things work with the UI
-	sf::RenderWindow* get_window();
-	sf::View* get_view();
+	sf::RenderWindow& get_window(); // TODO this will be deleted soon!
+	sf::View& get_view();
 
 	void draw_all();
 

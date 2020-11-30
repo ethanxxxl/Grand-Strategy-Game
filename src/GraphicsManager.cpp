@@ -2,17 +2,14 @@
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 
-GraphicsManager::GraphicsManager(Game& game, int win_width, int win_height) : game(game)
-{
-	this->game = game;
 
-	// create a window to draw in
-	window.create(sf::VideoMode(win_width, win_height), "SFML works!");
+
+GraphicsManager::GraphicsManager(sf::RenderWindow& window, Game& game, int win_width, int win_height) : game(game), window(window)
+{
 	// define a viewport
 	view = sf::View(sf::FloatRect(0,0,win_width,win_height));
 	// and activate it
 	window.setView(view);
-
 
 	/* Set up map render stuff
 	 */
@@ -67,16 +64,15 @@ GraphicsManager::GraphicsManager(Game& game, int win_width, int win_height) : ga
 	}
 }
 
-sf::RenderWindow* GraphicsManager::get_window()
+sf::RenderWindow& GraphicsManager::get_window()
 {
-	return &window;
+	return window;
 }
 
-sf::View* GraphicsManager::get_view()
+sf::View& GraphicsManager::get_view()
 {
-	return &view;
+	return view;
 }
-
 
 void GraphicsManager::draw_all()
 {
