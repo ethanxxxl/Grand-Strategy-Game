@@ -3,6 +3,7 @@
 #include <time.h>
 #include <noise/noise.h>
 #include <noise/module/perlin.h>
+#include <GameCore/CoordinateSystems/CoordinateSystems.h>
 
 World::World(int radius)
 {
@@ -29,43 +30,43 @@ World::World(int radius)
 
         // move the starting position to the topmost position
         for ( int i = 0; i <= rad; i++ )
-            pos = pos + CUBE_DIRS[DIRS::N];
+            pos = pos + CUBE_DIRS.find(DIRS::N)->second;
 
         // SW
         for ( int i = 0; i <= rad; i++ )
         {
             world_data[pos] = {}; // insert an empty tile at pos
-            pos = pos + CUBE_DIRS[DIRS::SW];
+            pos = pos + CUBE_DIRS.find(DIRS::SW)->second;
         }
         // S
         for ( int i = 0; i <= rad; i++ )
         {
             world_data[pos] = {}; // insert an empty tile at pos
-            pos = pos + CUBE_DIRS[DIRS::S];
+            pos = pos + CUBE_DIRS.find(DIRS::S)->second;
         }
         // SE
         for ( int i = 0; i <= rad; i++ )
         {
             world_data[pos] = {}; // insert an empty tile at pos
-            pos = pos + CUBE_DIRS[DIRS::SE];
+            pos = pos + CUBE_DIRS.find(DIRS::SE)->second;
         }
-        // NW
+        // NE
         for ( int i = 0; i <= rad; i++ )
         {
             world_data[pos] = {}; // insert an empty tile at pos
-            pos = pos + CUBE_DIRS[DIRS::NW];
+            pos = pos + CUBE_DIRS.find(DIRS::NW)->second;
         }
         // N
         for ( int i = 0; i <= rad; i++ )
         {
             world_data[pos] = {}; // insert an empty tile at pos
-            pos = pos + CUBE_DIRS[DIRS::N];
+            pos = pos + CUBE_DIRS.find(DIRS::N)->second;
         }
         // NW
         for ( int i = 0; i <= rad; i++ )
         {
             world_data[pos] = {}; // insert an empty tile at pos
-            pos = pos + CUBE_DIRS[DIRS::NW];
+            pos = pos + CUBE_DIRS.find(DIRS::NW)->second;
         }
 
         world_data[pos] = {}; // since I was incrementing before, I need to
@@ -100,57 +101,4 @@ Tile World::at(cube_coords_t coords)
 Tile World::at(axial_coords_t coords)
 {
     return world_data[to_cube(coords)];
-}
-
-
-World::axial_coords_t World::to_axial(cube_coords_t   coords)
-{
-    return (axial_coords_t){coords.x, coords.y};
-}
-
-World::axial_coords_t World::to_axial(pixel_coords_t     coords)
-{
-    // TODO: implement this function
-    return {};
-}
-
-World::cube_coords_t  World::to_cube (axial_coords_t  coords)
-{
-    return (cube_coords_t){coords.q, coords.r, -coords.q - coords.r };
-}
-
-World::cube_coords_t  World::to_cube (pixel_coords_t     coords)
-{
-    // TODO: implement this function
-    return {};
-}
-
-World::pixel_coords_t World::to_pixel(cube_coords_t   coords)
-{
-    return (pixel_coords_t)
-    {
-        //.x = 3/2 * coords.x,
-        .x = 0,
-        .y = (sqrt(3)/2 * coords.x  +  sqrt(3) * coords.y)
-    };
-}
-
-World::pixel_coords_t World::to_pixel(axial_coords_t  coords)
-{
-    return (pixel_coords_t)
-    {
-        //.x = (double)(3.0f/2.0f) * ((double)coords.q),
-        .x = 0,
-        .y = (sqrt(3)/2 * (double)coords.q  +  sqrt(3) * ((double)coords.r))
-    };
-}
-
-World::cube_coords_t operator+(World::cube_coords_t& c1, World::cube_coords_t& c2)
-{
-    return { c1.x+c2.x, c1.y+c2.y, c1.z+c2.z };
-}
-
-World::cube_coords_t operator-(World::cube_coords_t& c1, World::cube_coords_t& c2)
-{
-    return { c1.x+c2.x, c1.y+c2.y, c1.z+c2.z };
 }

@@ -2,15 +2,23 @@ cmake_minimum_required(VERSION 3.10)
 
 project(Grand_Strategy CXX)
 
+set (COORD_SYSTEMS_SRCS
+	src/GameCore/CoordinateSystems/AxialCoords.cpp
+	src/GameCore/CoordinateSystems/CubeCoords.cpp
+	src/GameCore/CoordinateSystems/PixelCoords.cpp
+	src/GameCore/CoordinateSystems/CoordinateSystems.cpp
+	)
+
 set (SRC_TEST
 	 src/GameCore/World.cpp
 	 src/GameCore/test1.cpp
+	 ${COORD_SYSTEMS_SRCS}
 	 )
 
 include_directories(./include ./libs)
-add_subdirectory(libs)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set(CXX_STANDARD 20)
 
 set(CMAKE_BUILD_TYPE Debug)
 
