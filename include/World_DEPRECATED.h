@@ -9,7 +9,7 @@
 #include <cstdint>
 
 class World;
-#include <Tile.h>
+#include <Tile_DEPRECATED.h>
 
 class World
 {

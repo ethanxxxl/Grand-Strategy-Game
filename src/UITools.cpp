@@ -1,11 +1,7 @@
 #include "CONSTANTS.h"
-#include <SFML/Graphics/RectangleShape.hpp>
-#include <SFML/Graphics/RenderWindow.hpp>
-#include <SFML/System/Vector2.hpp>
+#include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
-#include <SFML/Window/Event.hpp>
-#include <SFML/Window/Keyboard.hpp>
-#include <SFML/Window/Mouse.hpp>
+#include <SFML/System/Vector2.hpp>
 #include <UITools.h>
 #include <limits>
 #include <memory>

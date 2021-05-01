@@ -33,11 +33,9 @@ void Game::play_turn(std::string username)
 			// it is not this players turn
 			if ( n != active_player )
 			{
-				// just return from the function.
-				//  maybe later, send a copy of the updated game board, or something
+				// just return from the function, they cannot make a move.
 				return;
 			}
-
 			break;
 		}
 	}

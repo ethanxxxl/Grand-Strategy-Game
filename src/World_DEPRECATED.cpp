@@ -1,11 +1,11 @@
-#include "Tile.h"
+#include "Tile_DEPRECATED.h"
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/PrimitiveType.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/Vertex.hpp>
 #include <SFML/Graphics/VertexArray.hpp>
 #include <SFML/System/Vector2.hpp>
-#include <World.h>
+#include <World_DEPRECATED.h>
 #include <cstddef>
 #include <noise/module/perlin.h>
 #include <vector>

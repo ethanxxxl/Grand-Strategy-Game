@@ -1,15 +1,5 @@
 #include "Player.h"
-#include <SFML/Graphics/Color.hpp>
-#include <SFML/Graphics/Rect.hpp>
-#include <SFML/Network.hpp>
-#include <SFML/Network/Socket.hpp>
-#include <SFML/Network/TcpListener.hpp>
-#include <SFML/Network/TcpSocket.hpp>
 #include <SFML/Graphics.hpp>
-#include <SFML/System/Vector2.hpp>
-#include <SFML/Window/Clipboard.hpp>
-#include <SFML/Window/Event.hpp>
-#include <SFML/Window/Mouse.hpp>
 #include <iostream>
 
 #include <Tile.h>
@@ -17,44 +7,45 @@
 #include <UITools.h>
 #include <World.h>
 #include <EventHandler.h>
+#include <Networking/Message.h>
 #include <memory>
 
 int main()
 {
-	// create a game, set up players, wait for connection
-	// client connects to the server as a player.
-	// server sends client game data
-    std::cout << "waiting for a connection..." << std::endl;
-	// bind the listener to a port
-	sf::TcpListener listener;
-	if (listener.listen(53000) != sf::Socket::Done)
-	{
-		// error
-	}
+	//// create a game, set up players, wait for connection
+	//// client connects to the server as a player.
+	//// server sends client game data
+ //   std::cout << "waiting for a connection..." << std::endl;
+	//// bind the listener to a port
+	//sf::TcpListener listener;
+	//if (listener.listen(53000) != sf::Socket::Done)
+	//{
+	//	// error
+	//}
 
 
-	// accept a new connection
-	sf::TcpSocket client;
-	if ( listener.accept(client) != sf::Socket::Done )
-	{
-		// errror
-	}
+	//// accept a new connection
+	//sf::TcpSocket client;
+	//if ( listener.accept(client) != sf::Socket::Done )
+	//{
+	//	// errror
+	//}
 
-    std::cout << "recieved a connection\nrecieving data..." << std::endl;
+ //   std::cout << "recieved a connection\nrecieving data..." << std::endl;
 
-	// use client to communicate with the connected server,
-	// and continue to accept new connections with the listener
-	char buf[100];
-	std::size_t recieved;
-	if ( client.receive(buf, 100, recieved) != sf::Socket::Done )
-	{
-		// there was an error
-	}
+	//// use client to communicate with the connected server,
+	//// and continue to accept new connections with the listener
+	//char buf[100];
+	//std::size_t recieved;
+	//if ( client.receive(buf, 100, recieved) != sf::Socket::Done )
+	//{
+	//	// there was an error
+	//}
 
 
-	std::cout << buf << std::endl;
+	//std::cout << buf << std::endl;
 
-	client.disconnect();
+	//client.disconnect();
 
 //
 //
