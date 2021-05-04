@@ -1,8 +1,7 @@
 #include <GameCore/World.h>
 #include <GameCore/Tile.h>
 #include <time.h>
-#include <noise/noise.h>
-#include <noise/module/perlin.h>
+#include <FastNoiseLite.h>
 #include <GameCore/CoordinateSystems/CoordinateSystems.h>
 
 World::World(int radius)
@@ -76,20 +75,23 @@ World::World(int radius)
 
     // go through each tile and generate noise for them.
     // initialize the noise engine
-	noise::module::Perlin noise_module;
 	srand(time(NULL));
-	noise_module.SetSeed(rand());
+
+    FastNoiseLite noise;
+    noise.SetNoiseType(FastNoiseLite::NoiseType_OpenSimplex2);
+    noise.SetSeed(rand());
 
     // give some perlin noise to all of the tiles.
     // TODO: Tune this section
-    for ( auto i = world_data.begin(); i != world_data.end(); i++ )
+    int i = 0;
+    for ( auto& [first, second]: world_data )
     {
-        auto coord = to_pixel(i->first);
-        i->second.elevation = noise_module.GetValue(coord.x, coord.y, 1);
+        auto coord = to_pixel(first);
+        second.elevation = 10*noise.GetNoise((float)coord.x, (float)coord.y);
 
         // set the terrain based on the elevation
         // ? you might want to do this differently
-        // TODO: implement this
+        // TODO: implement thi
     }
 }
 

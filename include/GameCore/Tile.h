@@ -7,7 +7,7 @@ enum class terrain_t { LAND, WATER, MOUNTAIN };
 struct Tile
 {
     terrain_t terrain;
-    int elevation;
+    float elevation;
 };
 
 #endif
