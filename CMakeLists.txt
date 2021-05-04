@@ -18,7 +18,7 @@ set (SRC_TEST
 include_directories(./include ./libs)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-set(CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 20)
 
 set(CMAKE_BUILD_TYPE Debug)
 
