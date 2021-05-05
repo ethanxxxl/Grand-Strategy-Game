@@ -13,13 +13,16 @@ class World
 private:
     // maximum number of tiles in any direction from the central tile.
     int radius;
+    int seed;
 
     //? add a way to access elements using axial coords?
     // world data storage.
+    public:
     std::unordered_map<cube_coords_t, Tile, cubeHash> world_data;
 
 public:
-    World(int radius);
+    World();
+    World(int radius, int seed);
     
     // map references
     Tile at(cube_coords_t coords);

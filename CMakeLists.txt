@@ -7,6 +7,7 @@ set(CMAKE_CXX_STANDARD 20)
 if ( APPLE )
 	message(">>> GENERATRING BUILD FILES FOR MACOS <<<")
 	link_directories(/lib /usr/lib /usr/local/lib)
+	include_directories(/usr/local/include)
 elseif ( LINUX )
 	message(">>> GENERATRING BUILD FILES FOR LINUX <<<")
 elseif ( WINDOWS )
@@ -24,6 +25,8 @@ set (COORD_SYSTEMS_SRCS
 
 set (SRC_TEST
 	 src/GameCore/World.cpp
+	 src/GameCore/Game.cpp
+	 src/GameCore/Player.cpp
 	 src/GameCore/test1.cpp
 	 ${COORD_SYSTEMS_SRCS}
 	 )

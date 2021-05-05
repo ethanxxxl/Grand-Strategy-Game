@@ -1,26 +1,18 @@
-#include <Game.h>
-
-#include <Player.h>
-#include <SFML/Network/Packet.hpp>
+#include <GameCore/Game.h>
+#include <GameCore/Player.h>
+#include <time.h>
 #include <fstream>
-#include <iterator>
-#include <memory>
 #include <vector>
 
 Game::Game(std::vector<Player> players, int world_size)
 {
+	srand(time(NULL));
 	// generate a world
-	world = std::make_shared<World>(world_size, world_size);
+	world = World { world_size, rand() };
 
 	// set players
 	this->players = players;
 	active_player = players.begin();
-
-	// give all of the players a reference to the world
-	for ( auto p = players.begin(); p != players.end(); ++p )
-	{
-		p->world = world;
-	}
 }
 
 void Game::play_turn(std::string username)
@@ -46,14 +38,4 @@ void Game::play_turn(std::string username)
 	// this is the end of the turn, pass to next player.
 	if ( ++active_player == players.end() )
 		active_player = players.begin();
-}
-
-sf::Packet& Game::operator <<(sf::Packet& packet, const Game& game)
-{
-	return packet << game.players;
-}
-
-sf::Packet& Game::operator >>(sf::Packet& packet, Game& game)
-{
-
 }
