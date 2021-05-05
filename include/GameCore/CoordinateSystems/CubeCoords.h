@@ -14,7 +14,6 @@ struct cube_coords_t
     friend bool operator==(const cube_coords_t& c1, const cube_coords_t& c2);
 };
 
-//! Not implemented!
 // Hashing function for cube coordinates. these coordinates are used as keys for
 //  maps (ie world_data), and because cube_coords_t is a structure I defined, I
 //  need to create a hashing function for it as well.
