@@ -27,6 +27,7 @@ set (SRC_TEST
 	 src/GameCore/World.cpp
 	 src/GameCore/Game.cpp
 	 src/GameCore/Player.cpp
+	 src/GameCore/GameObject.cpp
 	 src/GameCore/test1.cpp
 	 ${COORD_SYSTEMS_SRCS}
 	 )
