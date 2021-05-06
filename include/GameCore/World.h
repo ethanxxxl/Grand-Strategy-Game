@@ -25,8 +25,8 @@ public:
     World(int radius, int seed);
     
     // map references
-    Tile at(cube_coords_t coords);
-    Tile at(axial_coords_t coords);
+    Tile& at(cube_coords_t coords);
+    Tile& at(axial_coords_t coords);
 
 };
 

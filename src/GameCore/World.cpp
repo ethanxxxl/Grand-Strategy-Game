@@ -32,43 +32,43 @@ World::World(int radius, int seed)
 
         // move the starting position to the topmost position
         for ( int i = 0; i <= rad; i++ )
-            pos = pos + CUBE_DIRS.find(DIRS::N)->second;
+            pos = pos + DIRECTION_NORMALS.at(directions_t::N);
 
         // SW
         for ( int i = 0; i <= rad; i++ )
         {
             world_data[pos] = {}; // insert an empty tile at pos
-            pos = pos + CUBE_DIRS.find(DIRS::SW)->second;
+            pos = pos + DIRECTION_NORMALS.at(directions_t::SW);
         }
         // S
         for ( int i = 0; i <= rad; i++ )
         {
             world_data[pos] = {}; // insert an empty tile at pos
-            pos = pos + CUBE_DIRS.find(DIRS::S)->second;
+            pos = pos + DIRECTION_NORMALS.at(directions_t::S);
         }
         // SE
         for ( int i = 0; i <= rad; i++ )
         {
             world_data[pos] = {}; // insert an empty tile at pos
-            pos = pos + CUBE_DIRS.find(DIRS::SE)->second;
+            pos = pos + DIRECTION_NORMALS.at(directions_t::SE);
         }
         // NE
         for ( int i = 0; i <= rad; i++ )
         {
             world_data[pos] = {}; // insert an empty tile at pos
-            pos = pos + CUBE_DIRS.find(DIRS::NW)->second;
+            pos = pos + DIRECTION_NORMALS.at(directions_t::NW);
         }
         // N
         for ( int i = 0; i <= rad; i++ )
         {
             world_data[pos] = {}; // insert an empty tile at pos
-            pos = pos + CUBE_DIRS.find(DIRS::N)->second;
+            pos = pos + DIRECTION_NORMALS.at(directions_t::N);
         }
         // NW
         for ( int i = 0; i <= rad; i++ )
         {
             world_data[pos] = {}; // insert an empty tile at pos
-            pos = pos + CUBE_DIRS.find(DIRS::NW)->second;
+            pos = pos + DIRECTION_NORMALS.at(directions_t::NW);
         }
 
         world_data[pos] = {}; // since I was incrementing before, I need to
@@ -99,12 +99,12 @@ World::World(int radius, int seed)
     }
 }
 
-Tile World::at(cube_coords_t coords)
+Tile& World::at(cube_coords_t coords)
 {
     return world_data[coords];
 }
 
-Tile World::at(axial_coords_t coords)
+Tile& World::at(axial_coords_t coords)
 {
     return world_data[to_cube(coords)];
 }
