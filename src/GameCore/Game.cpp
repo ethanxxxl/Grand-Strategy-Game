@@ -41,30 +41,15 @@ void Game::play_turn(std::string username)
 		active_player = m_players.begin();
 }
 
-std::vector<cube_coords_t> Game::get_valid_moves(int ID)
+const std::vector<cube_coords_t> Game::get_valid_moves(int ID)
 {
-	/* -- FIND OBJECT -- 
-	 */
-
-	// lambda for easy checking of ID
-	auto check_ID = [ID](GameObject* o) { return o->m_ID == ID; };
-
-	// the objects we are looking through
-	const std::vector<GameObject*> objs = GameObject::objects();
-
-	// find the object, if it is not in the list, then return an empty set of valid moves.
-	auto result = std::ranges::find_if(objs, check_ID);
-	if ( result == objs.end() )
-		return {};
-
-	// get the valid moves and return them.
-	return get_valid_moves(*result);
+	// get the valid moves of the object at the specified ID, and return them
+	return GameObject::lookup(ID)->get_valid_moves();
 }
 
-// TODO implement this!
-std::vector<cube_coords_t> Game::get_valid_moves(GameObject* obj)
+const std::vector<cube_coords_t> Game::get_valid_moves(GameObject* obj)
 {
-	return {};
+	return obj->get_valid_moves();
 }
 
 bool Game::move_object(int ID)

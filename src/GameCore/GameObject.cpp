@@ -20,7 +20,28 @@ GameObject::~GameObject()
         m_objects.erase(result);
 }
 
-const std::vector<GameObject*>& GameObject::objects()
+GameObject* GameObject::lookup(unsigned int ID)
+{
+	// lambda for easy checking of ID
+	auto check_ID = [ID](GameObject* o) { return o->m_ID == ID; };
+
+	// the objects we are looking through
+	const std::vector<GameObject*> objs = GameObject::objects();
+
+	// find the object, if it is not in the list, then return an empty set of valid moves.
+	auto result = std::ranges::find_if(objs, check_ID);
+	if ( result == objs.end() )
+		return {};
+
+    return *result;
+}
+
+const std::vector<GameObject*>& GameObject::objects(void)
 {
     return m_objects;
+}
+
+const cube_coords_t& GameObject::pos(void)
+{
+    return m_pos;
 }

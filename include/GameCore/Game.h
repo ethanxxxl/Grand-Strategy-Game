@@ -5,6 +5,7 @@
 #include <GameCore/World.h>
 #include <GameCore/GameObject.h>
 #include <GameCore/Player.h>
+#include <GameCore/Grouping.h>
 #include <memory>
 
 // TODO set this up so that it can be used in a client/server arrangement.
@@ -36,8 +37,8 @@ public:
 	void play_turn(std::string username);
 
 	// get a list of valid moves of an object (referenced either by its ID or its pointer)
-	std::vector<cube_coords_t> get_valid_moves(int ID);
-	std::vector<cube_coords_t> get_valid_moves(GameObject* obj);
+	const std::vector<cube_coords_t> get_valid_moves(int ID);
+	const std::vector<cube_coords_t> get_valid_moves(GameObject* obj);
 
 	// attempt to move the specified object. returns true if successful, false if not.
 	bool move_object(int ID);

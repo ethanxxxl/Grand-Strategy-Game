@@ -14,6 +14,7 @@ elseif ( WINDOWS )
 	message(">>> GENERATRING BUILD FILES FOR WINDOWS <<<")
 endif()
 
+set(CMAKE_BUILD_TYPE Debug)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 set (COORD_SYSTEMS_SRCS
@@ -28,13 +29,12 @@ set (SRC_TEST
 	 src/GameCore/Game.cpp
 	 src/GameCore/Player.cpp
 	 src/GameCore/GameObject.cpp
+	 src/GameCore/Grouping.cpp
 	 src/GameCore/test1.cpp
 	 ${COORD_SYSTEMS_SRCS}
 	 )
 
 include_directories(./include ./libs)
-
-set(CMAKE_BUILD_TYPE Debug)
 
 #add_executable(client ${CLIENT_SRC})
 #add_executable(server ${SERVER_SRC})

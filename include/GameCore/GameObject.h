@@ -10,13 +10,15 @@
 class GameObject
 {
 private:
-    cube_coords_t m_pos;
-
-    // references so that the object knows where it can move
-    const World& m_world;
-
     // all objects that exist
     static std::vector<GameObject*> m_objects;
+
+protected:
+    // position of the GameObject
+    cube_coords_t m_pos;
+
+    // the world that the object exists in.
+    World& m_world;
 
 public:
     std::string m_name;
@@ -25,10 +27,12 @@ public:
     GameObject(unsigned int ID, World& world);
     virtual ~GameObject();
 
-    cube_coords_t get_pos(void);
-    virtual void change_position(cube_coords_t new_pos) = 0;
+    const cube_coords_t& pos(void);
+    static const std::vector<GameObject*>& objects(void);
+    static GameObject* lookup(unsigned int ID);
 
-    static const std::vector<GameObject*>& objects();
+    virtual const std::vector<cube_coords_t> get_valid_moves(void) = 0;
+    virtual void move(const cube_coords_t& new_pos) = 0;
 };
 
 #endif
