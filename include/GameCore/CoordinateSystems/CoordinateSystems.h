@@ -8,14 +8,21 @@
 #include <unordered_map>
 
 // hexagonal directions
-enum class DIRS { NE, N, NW, SW, S, SE };
+enum class directions_t { NE, N, NW, SW, S, SE, Begin=NE, End=SE };
+
+// "complement" operator, returns the side directly opposite d1
+directions_t operator~(const directions_t& d1);
+
+// Array of the directions, allows for easy looping over all directions
+extern const directions_t DIRECTIONS[(int)directions_t::End + 1];
+
 
 // Directional normals. Add these to a position, and the position will be
 //  shifted by one unit in that direction.
-const std::unordered_map<DIRS, cube_coords_t> CUBE_DIRS
+const std::unordered_map<directions_t, cube_coords_t> DIRECTION_NORMALS
 { 
-    {DIRS::SE, {+1, -1, 0}}, {DIRS::NE, {+1, 0, -1}}, {DIRS::N, {0, +1, -1}}, 
-    {DIRS::NW, {-1, +1, 0}}, {DIRS::SW, {-1, 0, +1}}, {DIRS::S, {0, -1, +1}}
+    {directions_t::SE, {+1, -1, 0}}, {directions_t::NE, {+1, 0, -1}}, {directions_t::N, {0, +1, -1}}, 
+    {directions_t::NW, {-1, +1, 0}}, {directions_t::SW, {-1, 0, +1}}, {directions_t::S, {0, -1, +1}}
 };
 
 //? should I put these in a namespace?
