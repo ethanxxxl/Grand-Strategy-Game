@@ -21,6 +21,8 @@ directions_t operator~(const directions_t& d1)
             return directions_t::N; 
         case directions_t::NE:
             return directions_t::SW; 
+        default:
+            return directions_t::N; // this case should never occur
     }
 }
 
