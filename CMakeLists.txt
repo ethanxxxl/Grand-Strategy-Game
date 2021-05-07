@@ -21,7 +21,7 @@ set (COORD_SYSTEMS_SRCS
 	src/GameCore/CoordinateSystems/AxialCoords.cpp
 	src/GameCore/CoordinateSystems/CubeCoords.cpp
 	src/GameCore/CoordinateSystems/PixelCoords.cpp
-	src/GameCore/CoordinateSystems/CoordinateSystems.cpp
+	src/GameCore/CoordinateSystems.cpp
 	)
 
 set (SRC_TEST

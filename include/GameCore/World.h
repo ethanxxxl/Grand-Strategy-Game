@@ -4,7 +4,7 @@
 #include <vector>
 #include <unordered_map>
 #include <GameCore/Tile.h>
-#include <GameCore/CoordinateSystems/CoordinateSystems.h>
+#include <GameCore/CoordinateSystems.h>
 
 // The world is be hexagonal tile grid. the grid have rotational symetry
 // along all 6 sides.

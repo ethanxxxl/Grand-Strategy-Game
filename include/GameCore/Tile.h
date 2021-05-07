@@ -1,7 +1,7 @@
 #ifndef TILE2_H
 #define TILE2_H
 
-#include <GameCore/CoordinateSystems/CoordinateSystems.h>
+#include <GameCore/CoordinateSystems.h>
 #include <set>
 
 enum class terrain_t { LAND, WATER, MOUNTAIN };

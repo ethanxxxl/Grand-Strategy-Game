@@ -1,7 +1,7 @@
 #include <GameCore/World.h>
 #include <GameCore/Tile.h>
 #include <FastNoiseLite.h>
-#include <GameCore/CoordinateSystems/CoordinateSystems.h>
+#include <GameCore/CoordinateSystems.h>
 
 World::World()
 { }

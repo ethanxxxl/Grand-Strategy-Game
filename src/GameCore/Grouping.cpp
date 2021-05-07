@@ -1,5 +1,5 @@
 #include <GameCore/Grouping.h>
-#include <GameCore/CoordinateSystems/CoordinateSystems.h>
+#include <GameCore/CoordinateSystems.h>
 #include <GameCore/World.h>
 #include <GameCore/Tile.h>
 #include <algorithm>

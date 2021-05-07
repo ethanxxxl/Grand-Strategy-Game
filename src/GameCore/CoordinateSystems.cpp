@@ -1,4 +1,4 @@
-#include <GameCore/CoordinateSystems/CoordinateSystems.h>
+#include <GameCore/CoordinateSystems.h>
 #include <math.h>
 
 // actually define the directions, which was declared extern in the header file
