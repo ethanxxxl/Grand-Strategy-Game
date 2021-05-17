@@ -6,6 +6,7 @@
 
 namespace Message
 {
+	// commands which can be sent to the server.
 	enum class commands_t: uint16_t
 	{
 		NONE,
@@ -18,10 +19,11 @@ namespace Message
 
 	struct ConsolePrint
 	{
+		ConsolePrint() : message() {};
+		~ConsolePrint() {};
 		// if you end up using this a lot, you could add more
 		// options.
-		// pointer to null terminated message string;
-		char* message;
+		std::string message;
 	};
 
 	struct SendChat
@@ -40,9 +42,19 @@ namespace Message
 	{
 	};
 
+	/**
+	 * ClientMessage
+	 *  this structure defines a message sent from a client program. the client will
+	 *  be sending commands to the server, therefore one of the fields (m_command) 
+	 *  defines the command which is being sent to the server.
+	 * 
+	 *  Additionally, there is a union which contains data specific to the command to be
+	 *  sent to the server.
+	 */
 	struct ClientMessage
 	{
-		ClientMessage() : cp() {};
+		ClientMessage() : u_console_print() {};
+		~ClientMessage() {};
 		uint32_t m_playerID;
 		std::string m_username;
 
@@ -50,11 +62,11 @@ namespace Message
 
 		union
 		{
-			ConsolePrint cp;
-			SendChat sc;
-			GetMoves gm;
-			MoveUnit mu;
-			GetInfo gi;
+			ConsolePrint u_console_print;
+			SendChat u_send_chat;
+			GetMoves u_get_moves;
+			MoveUnit u_move_unit;
+			GetInfo u_get_info;
 		};
 	};
 }

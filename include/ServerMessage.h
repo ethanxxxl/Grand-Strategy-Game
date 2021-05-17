@@ -5,36 +5,48 @@
 #include <SFML/Network.hpp>
 #include <string>
 
-struct StatusReport
+namespace Message
 {
-	//? do you want to add a "job number" so that the client knows exactly what
-	//? command the message is referring to? if the need arises, this should be
-	//? added.
-	ClientMessage::commands_t client_command;
-	bool success;
-	std::string message;
-};
-
-struct ServerMessage;
-sf::Packet& operator<<(sf::Packet& p, const ServerMessage& h);
-
-sf::Packet& operator<<(sf::Packet& p, const StatusReport& h);
-
-/**
- * --ServerMessage--
- * this is a message that is sent from the server to the client.
- */
-struct ServerMessage
-{
-	enum class msgclass_t : uint16_t
+	enum class msgtype_t : uint16_t
 	{
+		NONE,
 		STATUS_REPORT
-	} msgclass;
+	};
 
-	union MesssageBody
+
+	struct StatusReport
 	{
-		StatusReport status_report;
-	} message_body;
-};
+		StatusReport() : message() {};
+		~StatusReport() {};
 
+		//? do you want to add a "job number" so that the client knows exactly what
+		//?  command the message is referring to? if the need arises, this should be
+		//?  added.
+		bool success;
+		std::string message;
+	};
+
+	/**
+	 * ServerMessage
+	 *  this structure is used to send/recieve messages from the server. The message
+	 *  type signals to the client what type of message it is recieving. Notice that
+	 *  this uses a union, so only one message type can be used at once.
+	 */
+	struct ServerMessage
+	{
+		ServerMessage() : u_status_report() {};
+		~ServerMessage() {};
+		msgtype_t m_msg_type;
+
+		union
+		{
+			StatusReport u_status_report;
+		};
+	};
+
+}
+
+// extracts servermessage data from the packet.
+sf::Packet& operator>>(sf::Packet& p, Message::ServerMessage& h);
+sf::Packet& operator<<(sf::Packet& p, const Message::ServerMessage& h);
 #endif
