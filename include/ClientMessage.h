@@ -4,72 +4,63 @@
 #include <SFML/Network.hpp>
 #include <string>
 
-struct ConsolePrint
+namespace Message
 {
-	// if you end up using this a lot, you could add more
-	// options.
-	std::string message;
-};
-
-struct SendChat
-{};
-
-struct GetMoves
-{};
-
-struct MoveUnit
-{};
-
-struct GetInfo
-{};
-
-/** operator overloads for each union member */
-struct ClientMessage;
-sf::Packet& operator<<(sf::Packet& p, const ClientMessage& h);
-
-sf::Packet& operator<<(sf::Packet& p, const ConsolePrint& h);
-sf::Packet& operator<<(sf::Packet& p, const SendChat& h);
-sf::Packet& operator<<(sf::Packet& p, const GetMoves& h);
-sf::Packet& operator<<(sf::Packet& p, const MoveUnit& h);
-sf::Packet& operator<<(sf::Packet& p, const GetInfo& h);
-
-/**
- * --ClientMessage--
- * this is a two component struct. It contains a header and a body
- * this is the header for messages from the client to the server.
- * It contains a specifier, describing the type of message, and 
- * data to identify which user is sending the message. 
- */
-struct ClientMessage
-{
-	/** HEADER */
 	enum class commands_t: uint16_t
 	{
+		NONE,
 		CONSOLE_PRINT,
 		SEND_CHAT,
 		GET_MOVES,
 		MOVE_UNIT,
 		GET_INFO
-	}
-	command;
+	};
 
-	//? do you want to add a "job number" so that the client knows exactly what
-	//? command the message is referring to? if the need arises, this should be
-	//? added.
-
-	// may be used in the future;
-	uint64_t player_ID;
-	std::string username;
-
-	/** BODY */
-	union MessageBody
+	struct ConsolePrint
 	{
-		ConsolePrint 	console_print;
-		SendChat     	send_chat;
-		GetMoves     	get_moves;
-		MoveUnit		move_unit;
-		GetInfo 		get_info;
-	} body;
-};
+		// if you end up using this a lot, you could add more
+		// options.
+		// pointer to null terminated message string;
+		char* message;
+	};
+
+	struct SendChat
+	{
+	};
+
+	struct GetMoves
+	{
+	};
+
+	struct MoveUnit
+	{
+	};
+
+	struct GetInfo
+	{
+	};
+
+	struct ClientMessage
+	{
+		ClientMessage() : cp() {};
+		uint32_t m_playerID;
+		std::string m_username;
+
+		commands_t m_command;
+
+		union
+		{
+			ConsolePrint cp;
+			SendChat sc;
+			GetMoves gm;
+			MoveUnit mu;
+			GetInfo gi;
+		};
+	};
+}
+
+/** operator overloads for each union member */
+sf::Packet& operator<<(sf::Packet& p, const Message::ClientMessage& h);
+sf::Packet& operator>>(sf::Packet& p, Message::ClientMessage& h);
 
 #endif

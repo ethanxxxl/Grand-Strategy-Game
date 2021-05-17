@@ -1,104 +1,75 @@
-#include "Player.h"
+#include <ClientMessage.h>
+#include <ServerMessage.h>
 #include <SFML/Graphics.hpp>
-#include <iostream>
-
-#include <Tile.h>
+#include <SFML/Network.hpp>
+#include <algorithm>
 #include <array>
-#include <UITools.h>
-#include <World.h>
-#include <EventHandler.h>
-#include <Networking/Message.h>
+#include <cstring>
+#include <iostream>
 #include <memory>
+#include <ranges>
 
 int main()
 {
-	//// create a game, set up players, wait for connection
-	//// client connects to the server as a player.
-	//// server sends client game data
- //   std::cout << "waiting for a connection..." << std::endl;
-	//// bind the listener to a port
-	//sf::TcpListener listener;
-	//if (listener.listen(53000) != sf::Socket::Done)
-	//{
-	//	// error
-	//}
-
-
-	//// accept a new connection
-	//sf::TcpSocket client;
-	//if ( listener.accept(client) != sf::Socket::Done )
-	//{
-	//	// errror
-	//}
-
- //   std::cout << "recieved a connection\nrecieving data..." << std::endl;
-
-	//// use client to communicate with the connected server,
-	//// and continue to accept new connections with the listener
-	//char buf[100];
-	//std::size_t recieved;
-	//if ( client.receive(buf, 100, recieved) != sf::Socket::Done )
-	//{
-	//	// there was an error
-	//}
-
-
-	//std::cout << buf << std::endl;
-
-	//client.disconnect();
-
-//
-//
-//
-//
-//
-//
-	// GENERATE WORLD MAP
-	const int WORLD_SIZE_X = 25;
-	const int WORLD_SIZE_Y = 25;
-
-	auto the_world = std::make_shared<World>(WORLD_SIZE_X, WORLD_SIZE_Y);
-
-	// create the window
-	sf::RenderWindow window(sf::VideoMode(800, 400), "SFML works!");
-	
-	// define the viewport
-	sf::View view(sf::FloatRect(0,0,800,400));
-	// and activate it
-	window.setView(view);
-
-	// add a temporary player
-	Player p1("ethanxxxl", sf::Color::Red, the_world);
-
-	// Start event handler
-	EventHandler eventhandler(&window);
-
-	// Start UI tools
-	auto ui_tools = std::make_shared<UITools>(&window, &view, the_world);
-	eventhandler.events.push_back(ui_tools);
-
-	ui_tools->set_active_tool(UITools::Pan);
-
-	// MAIN LOOP
-	while (window.isOpen())
+	// create a game, set up players, wait for connection
+	// client connects to the server as a player.
+	// server sends client game data
+    std::cout << "waiting for a connection..." << std::endl;
+	// bind the listener to a port
+	sf::TcpListener listener;
+	if (listener.listen(53000) != sf::Socket::Done)
 	{
-		window.clear(sf::Color(0x505050ff));
-
-		// draw the world
-		the_world->draw(window);
-
-		// draw player stuff
-		p1.draw(window);
-
-		// EVENT HANDLING
-		eventhandler.handle_events();
-
-		ui_tools->draw();
-
-		window.display();
-
+		// error
 	}
 
-  return 0;
+
+	// accept a new connection
+	sf::TcpSocket client;
+	if ( listener.accept(client) != sf::Socket::Done )
+	{
+		// errror
+	}
+
+    std::cout << "recieved a connection\nrecieving data..." << std::endl;
+
+	sf::Packet p;
+	client.receive(p);
 	
+	Message::ClientMessage m;
+	p >> m;
+
+	std::cout << m.m_username << " says: " << m.cp.message << std::endl;
+
+	// use client to communicate with the connected server,
+	// and continue to accept new connections with the listener
+	std::vector<char> buf(100);
+	std::size_t recieved;
+
+	strcpy(buf.data(), "Hello there");
+	std::cout << "result: " << std::string(buf.begin(), buf.end()) << std::endl;
+	
+	while ( true )
+	{
+		buf.clear();
+		buf.resize(100);
+		if ( client.receive(buf.data(), buf.capacity(), recieved) != sf::Socket::Done )
+			std::cout << "failed" << std::endl;
+		
+		auto zero = {0};
+		std::string command = {buf.begin(), std::ranges::find_first_of(buf, zero)};
+		std::cout << command << std::endl;
+
+		if ( command <=> "test" == 0)
+		{
+			const std::string t = "I hear you loud and clear\n";
+			client.send(t.c_str(), t.length());
+		}
+		else
+		{
+			const std::string t = "unrecognized command\n";
+			client.send(t.c_str(), t.length());
+		}
+	}
+
+	client.disconnect();
 }
