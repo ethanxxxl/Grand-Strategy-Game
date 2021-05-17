@@ -17,29 +17,33 @@ endif()
 set(CMAKE_BUILD_TYPE Debug)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-set (COORD_SYSTEMS_SRCS
+set (COORD_SYSTEMS_SRC
 	src/GameCore/CoordinateSystems/AxialCoords.cpp
 	src/GameCore/CoordinateSystems/CubeCoords.cpp
 	src/GameCore/CoordinateSystems/PixelCoords.cpp
 	src/GameCore/CoordinateSystems.cpp
 	)
 
-set (SRC_TEST
+set (GAME_CORE_SRC
 	 src/GameCore/World.cpp
 	 src/GameCore/Game.cpp
 	 src/GameCore/Player.cpp
 	 src/GameCore/GameObject.cpp
 	 src/GameCore/Grouping.cpp
-	 src/GameCore/test1.cpp
-	 ${COORD_SYSTEMS_SRCS}
+	 ${COORD_SYSTEMS_SRC}
 	 )
+	 
+set (NETWORKING_SRC
+	src/ClientMessage.cpp
+	src/ServerMessage.cpp
+	)
 
 include_directories(./include ./libs)
 
-#add_executable(client ${CLIENT_SRC})
-#add_executable(server ${SERVER_SRC})
-add_executable(test1 ${SRC_TEST})
+add_executable(client ${GAME_CORE_SRC} ${NETWORKING_SRC} src/client.cpp)
+add_executable(server ${GAME_CORE_SRC} ${NETWORKING_SRC} src/server.cpp)
+add_executable(test1 ${GAME_CORE_SRC} src/GameCore/test1.cpp)
 
-#target_link_libraries(client sfml-graphics sfml-window sfml-system sfml-audio sfml-network noise)
-#target_link_libraries(server sfml-graphics sfml-window sfml-system sfml-audio sfml-network noise)
+target_link_libraries(client sfml-graphics sfml-window sfml-system sfml-audio sfml-network noise)
+target_link_libraries(server sfml-graphics sfml-window sfml-system sfml-audio sfml-network noise)
 target_link_libraries(test1 sfml-graphics sfml-window sfml-network)

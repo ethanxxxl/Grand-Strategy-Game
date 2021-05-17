@@ -32,43 +32,34 @@ int main()
 
     std::cout << "recieved a connection\nrecieving data..." << std::endl;
 
-	sf::Packet p;
-	client.receive(p);
-	
-	Message::ClientMessage m;
-	p >> m;
-
-	std::cout << m.m_username << " says: " << m.cp.message << std::endl;
-
-	// use client to communicate with the connected server,
-	// and continue to accept new connections with the listener
-	std::vector<char> buf(100);
-	std::size_t recieved;
-
-	strcpy(buf.data(), "Hello there");
-	std::cout << "result: " << std::string(buf.begin(), buf.end()) << std::endl;
-	
 	while ( true )
 	{
-		buf.clear();
-		buf.resize(100);
-		if ( client.receive(buf.data(), buf.capacity(), recieved) != sf::Socket::Done )
+		sf::Packet p;
+		Message::ClientMessage m;
+		
+		if ( client.receive(p) != sf::Socket::Done )
 			std::cout << "failed" << std::endl;
 		
-		auto zero = {0};
-		std::string command = {buf.begin(), std::ranges::find_first_of(buf, zero)};
-		std::cout << command << std::endl;
+		p >> m;
+		std::cout << m.u_console_print.message << std::endl;
 
-		if ( command <=> "test" == 0)
+		p.clear();
+		Message::ServerMessage sm;
+		sm.m_msg_type =	Message::msgtype_t::STATUS_REPORT;
+
+		if ( m.u_console_print.message <=> "test" == 0)
 		{
-			const std::string t = "I hear you loud and clear\n";
-			client.send(t.c_str(), t.length());
+			sm.u_status_report.success = true;
+			sm.u_status_report.message = "I read you loud and clear";
 		}
 		else
 		{
-			const std::string t = "unrecognized command\n";
-			client.send(t.c_str(), t.length());
+			sm.u_status_report.success = false;
+			sm.u_status_report.message = "unrecognized command: " + m.u_console_print.message;
 		}
+
+		p << sm;
+		client.send(p);
 	}
 
 	client.disconnect();

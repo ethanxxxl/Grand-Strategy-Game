@@ -19,40 +19,37 @@ int main()
 	Message::ClientMessage m1;
 	m1.m_command = Message::commands_t::CONSOLE_PRINT;
 	m1.m_username = "ethan";
-	m1.cp.message = "hello there";
 
-	sf::Packet p;
-
-	p << m1;
-	socket.send(p);
 
 	bool exit = false;
 	std::string command;
 
-	std::vector<char> buf(100);
-	std::size_t recieved;
-
 	while ( !exit )
 	{
+		sf::Packet p;
 		std::cout << "> ";
 
 		std::cin >> std::ws;
-		std::getline(std::cin, command);
-
-		command.append("\0");
+		std::getline(std::cin, m1.u_console_print.message);
+		p << m1;
 
 		sf::Socket::Status result;
 		do
 		{
-			result = socket.send((void*)command.c_str(), command.length());
+			result = socket.send(p);
 		} while ( result != sf::Socket::Done );
 		
+		Message::ServerMessage sm;
+		p.clear();
+
 		do
 		{
-			result = socket.receive(buf.data(), buf.capacity(), recieved);
+			result = socket.receive(p);
 		} while ( result != sf::Socket::Done);
 
-		std::cout << buf.data() << std::endl;
+		p >> sm;
+
+		std::cout << sm.u_status_report.message << std::endl;
 	}
 
 	std::cout << "finished sending." << std::endl;
