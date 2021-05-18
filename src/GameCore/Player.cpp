@@ -2,13 +2,15 @@
 #include <GameCore/World.h>
 #include <string>
 
-Player::Player(std::string username)
+namespace GameCore
 {
-	this->username = username;
-}
+	Player::Player(std::string username)
+	{
+		this->username = username;
+	}
 
-std::string Player::get_username(void)
-{
-	return username;
+	std::string Player::get_username(void)
+	{
+		return username;
+	}
 }
-

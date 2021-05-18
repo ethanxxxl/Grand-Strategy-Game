@@ -6,27 +6,30 @@
 #include <string>
 #include <vector>
 
-class Player
+namespace GameCore
 {
-private:
-	// these things don't need to change
-	std::string username;
+	class Player
+	{
+	private:
+		// these things don't need to change
+		std::string username;
 
-public:
-	/*
-	 * Member Data
-	 */
-	//std::vector<GameObject&> objects;
+	public:
+		/*
+		* Member Data
+		*/
+		//std::vector<GameObject&> objects;
 
-	/*
-	 * Constructors
-	 */
-	Player(std::string username);
+		/*
+		* Constructors
+		*/
+		Player(std::string username);
 
-	/*
-	 * Methods
-	 */
-	std::string get_username(void);
-};
+		/*
+		* Methods
+		*/
+		std::string get_username(void);
+	};
+}
 
 #endif

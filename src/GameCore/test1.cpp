@@ -3,6 +3,7 @@
 #include <iomanip>
 #include <time.h>
 
+using namespace GameCore;
 int main()
 {
     srand(time(NULL));
