@@ -8,26 +8,20 @@
 
 namespace GameCore
 {
+	/// describes a player
 	class Player
 	{
 	private:
-		// these things don't need to change
-		std::string username;
+		std::string username; ///< players username, may not be unique
+		int32_t ID;			  ///< ID which will be unique to every player
 
 	public:
-		/*
-		* Member Data
-		*/
 		//std::vector<GameObject&> objects;
 
-		/*
-		* Constructors
-		*/
+		/// @param username every player must, at the very least have a username
 		Player(std::string username);
-
-		/*
-		* Methods
-		*/
+		
+		/// returns the username
 		std::string get_username(void);
 	};
 }

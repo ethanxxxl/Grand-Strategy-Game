@@ -1,9 +1,9 @@
-#include <ClientMessage.h>
+#include <Message/Client.h>
+#include <SFML/Network.hpp>
 
-sf::Packet& operator>>(sf::Packet& p, Message::ClientMessage& m)
+sf::Packet& operator>>(sf::Packet& p, Message::Client& m)
 {
 	// extract member data from the packet
-	// ? for some reason, I need to use an intermediate variable for the enum class
 	uint16_t cmd;
 	p >> m.m_playerID >> m.m_username >> cmd;
 	m.m_command = (Message::commands_t)cmd;
@@ -12,10 +12,10 @@ sf::Packet& operator>>(sf::Packet& p, Message::ClientMessage& m)
 	using namespace Message;
 	switch ( m.m_command )
 	{
-		case commands_t::NONE:
-			break;
 		case commands_t::CONSOLE_PRINT:
 			return p >> m.u_console_print.message;
+		case commands_t::GET_WORLD:
+			return p;
 		case commands_t::SEND_CHAT:
 			break;
 		case commands_t::GET_MOVES:
@@ -28,7 +28,7 @@ sf::Packet& operator>>(sf::Packet& p, Message::ClientMessage& m)
 	return p;
 }
 
-sf::Packet& operator<<(sf::Packet& p, const Message::ClientMessage& m)
+sf::Packet& operator<<(sf::Packet& p, const Message::Client& m)
 {
 	// insert member data
 	p << m.m_playerID << m.m_username << (uint16_t)m.m_command;
@@ -37,10 +37,10 @@ sf::Packet& operator<<(sf::Packet& p, const Message::ClientMessage& m)
 	using namespace Message;
 	switch ( m.m_command )
 	{
-		case commands_t::NONE:
-			break;
 		case commands_t::CONSOLE_PRINT:
 			return p << m.u_console_print.message;
+		case commands_t::GET_WORLD:
+			return p;
 		case commands_t::SEND_CHAT:
 			break;
 		case commands_t::GET_MOVES:
